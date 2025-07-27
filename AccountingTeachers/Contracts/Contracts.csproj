@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewContract\" />
     <Folder Include="InteractorContract\" />
     <Folder Include="PresenterContract\" />
   </ItemGroup>
