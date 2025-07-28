@@ -10,7 +10,7 @@ namespace Contracts.SearchContract
     public class TeacherSearch
     {
         public int? Id { get; set; }
-        public string? Fio { get; set; }
+        public string? FIO { get; set; }
         public TitleTeacher? TitleTeacher { get; set; }
         public PositionTeacher? PositionTeacher { get; set; }
         public int? DeparmentId { get; set; }

@@ -1,4 +1,5 @@
-﻿using Contracts.SearchContract;
+﻿using Contracts.BindingContract;
+using Contracts.SearchContract;
 using Contracts.StorageContract.dbModels;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,8 @@ namespace Contracts.StorageContract
         public List<User> GetFullList();
         public List<User> GetFillteredList(UserSearch SearchModel);
         public User? GetUser(UserSearch SearchModel);
+        public bool Create(UserBindingModel user);
+        public bool Update(UserBindingModel user);
+        public bool Delete(UserBindingModel user);
     }
 }
