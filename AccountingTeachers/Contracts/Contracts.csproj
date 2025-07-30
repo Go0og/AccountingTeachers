@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="InteractorContract\" />
-    <Folder Include="PresenterContract\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DataModel\DataModel.csproj" />
   </ItemGroup>
 
