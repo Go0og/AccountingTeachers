@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interactors", "Interactors\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presenters", "UserPresenter\Presenters.csproj", "{D65C743A-BAD1-4E85-B2E2-B9CD9E726B86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRestAPI", "WebRestAPI\WebRestAPI.csproj", "{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D65C743A-BAD1-4E85-B2E2-B9CD9E726B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D65C743A-BAD1-4E85-B2E2-B9CD9E726B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D65C743A-BAD1-4E85-B2E2-B9CD9E726B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
