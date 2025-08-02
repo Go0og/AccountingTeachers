@@ -11,6 +11,7 @@ namespace Contracts.SearchContract
     {
         public int? Id { get; set; }
         public string? FIO { get; set; }
+        public int bet {  get; set; }
         public TitleTeacher? TitleTeacher { get; set; }
         public PositionTeacher? PositionTeacher { get; set; }
         public int? DeparmentId { get; set; }

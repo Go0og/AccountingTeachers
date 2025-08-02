@@ -12,8 +12,8 @@ namespace Contracts.ViewContract
         public int Id { get; set; }
         public string FIO { get; set; } = string.Empty;
         public int bet {  get; set; }
-        public TitleTeacher TitleTeacher { get; set; }
-        public PositionTeacher PositionTeacher { get; set; }
+        public string TitleTeacher { get; set; } = string.Empty;
+        public string PositionTeacher { get; set; } = string.Empty;
         public int departmentId { get; set; }
     }
 }

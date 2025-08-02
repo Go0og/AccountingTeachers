@@ -11,6 +11,6 @@ namespace Contracts.PresenterContract
     public interface ITeacherPresenter
     {
         public List<TeacherView> MakeTeacherList(TeacherSearch? model);
-        public TeacherView MakeTeacher(TeacherSearch model);
+        public TeacherView? MakeTeacher(TeacherSearch model);
     }
 }

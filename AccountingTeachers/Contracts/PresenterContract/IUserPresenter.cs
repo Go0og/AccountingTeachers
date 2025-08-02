@@ -11,6 +11,6 @@ namespace Contracts.PresenterContract
     public interface IUserPresenter
     {
         public List<UserView> MakeUserList(UserSearch? model);
-        public UserView MakeUser (UserSearch model);
+        public UserView? MakeUser (UserSearch model);
     }
 }
