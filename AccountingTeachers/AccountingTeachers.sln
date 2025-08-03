@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presenters", "UserPresenter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRestAPI", "WebRestAPI\WebRestAPI.csproj", "{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClietn", "WebClietn\WebClietn.csproj", "{D027808F-D261-4D72-9781-93F07534D6BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8979FB5E-23F8-3EFE-729E-4D7B24F8FDCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D027808F-D261-4D72-9781-93F07534D6BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D027808F-D261-4D72-9781-93F07534D6BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D027808F-D261-4D72-9781-93F07534D6BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D027808F-D261-4D72-9781-93F07534D6BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

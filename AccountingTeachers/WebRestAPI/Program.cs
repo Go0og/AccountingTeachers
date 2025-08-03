@@ -30,10 +30,10 @@ namespace WebRestAPI
             builder.Services.AddTransient<IDepartmentLogic, DepartmensLogic>();
 
             // -----PRESENTERS----------
-            builder.Services.AddTransient<ITeacherPresenter, TeacherPresenter>();
-            builder.Services.AddTransient<IUserPresenter, UserPresenter>();
-            builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
 
+            //builder.Services.AddTransient<ITeacherPresenter, TeacherPresenter>();
+            //builder.Services.AddTransient<IUserPresenter, UserPresenter>();
+            //builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,6 +1,9 @@
-﻿using Contracts.InteractorContract;
+﻿using Contracts.BindingContract;
+using Contracts.InteractorContract;
 using Contracts.PresenterContract;
+using Contracts.SearchContract;
 using Contracts.StorageContract;
+using Contracts.ViewContract;
 using Interactors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,10 +41,22 @@ namespace WebRestAPI.Controllers
             teacherStorage = TeacherStorage;
             departmentStorage = DepartmentStorage;
         }
-        
 
+        [HttpPost]
+        public void regiser_user(UserBindingModel model)
+        {
+            userLogic.CreateUser(model); 
+        }
 
-
+        [HttpPost]
+        public UserView? login_user(string login,string password )
+        {
+            return userPresenter.MakeUser(new UserSearch
+            {
+                Email = login,
+                Password = password
+            });
+        }
 
 
     }
