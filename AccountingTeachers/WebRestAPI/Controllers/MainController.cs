@@ -11,7 +11,7 @@ namespace WebRestAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class MainControllers
+    public class MainController : ControllerBase
     {
         private readonly IUserPresenter userPresenter;
         private readonly ITeacherPresenter teacherPresenter;
@@ -25,7 +25,7 @@ namespace WebRestAPI.Controllers
         private readonly ITeacherStorage teacherStorage;
         private readonly IDepartmentStorage departmentStorage;
 
-        public MainControllers(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter,
+        public MainController(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter,
                                 IUserLogic UserLogic, IteacherLogic TeacherLogic, IDepartmentLogic DepartmentLogic,
                                 IUserStorage UserStorage, ITeacherStorage TeacherStorage, IDepartmentStorage DepartmentStorage )
         { 

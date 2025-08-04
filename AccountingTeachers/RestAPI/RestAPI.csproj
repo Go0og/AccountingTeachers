@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\DataBaseImplements\DataBaseImplements.csproj" />
+    <ProjectReference Include="..\Interactors\Interactors.csproj" />
+    <ProjectReference Include="..\Presenters\Presenters.csproj" />
+    <ProjectReference Include="..\WebClietn\WebClietn.csproj" />
+  </ItemGroup>
+
+</Project>
