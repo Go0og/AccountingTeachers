@@ -13,8 +13,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\DataBaseImplements\DataBaseImplements.csproj" />
+    <ProjectReference Include="..\DataModel\DataModel.csproj" />
     <ProjectReference Include="..\Interactors\Interactors.csproj" />
-    <ProjectReference Include="..\UserPresenter\Presenters.csproj" />
+    <ProjectReference Include="..\Presenters\Presenters.csproj" />
     <ProjectReference Include="..\WebClietn\WebClietn.csproj" />
   </ItemGroup>
 

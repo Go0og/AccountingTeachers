@@ -6,8 +6,6 @@ using Interactors;
 using Microsoft.OpenApi.Models;
 using Presenters;
 
-
-
 namespace WebRestAPI
 {
     public class Program
@@ -31,9 +29,9 @@ namespace WebRestAPI
 
             // -----PRESENTERS----------
 
-            //builder.Services.AddTransient<ITeacherPresenter, TeacherPresenter>();
-            //builder.Services.AddTransient<IUserPresenter, UserPresenter>();
-            //builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
+            builder.Services.AddTransient<ITeacherPresenter, TeacherPresenter>();
+            builder.Services.AddTransient<IUserPresenter, UserPresenter>();
+            builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

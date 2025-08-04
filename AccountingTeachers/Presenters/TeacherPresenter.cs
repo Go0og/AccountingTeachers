@@ -1,4 +1,5 @@
-﻿using Contracts.PresenterContract;
+﻿using Contracts.InteractorContract;
+using Contracts.PresenterContract;
 using Contracts.SearchContract;
 using Contracts.ViewContract;
 using Interactors;
@@ -12,9 +13,9 @@ namespace Presenters
 {
     public class TeacherPresenter : ITeacherPresenter
     {
-        private readonly TeacherLogic _logic;
+        private readonly IteacherLogic _logic;
 
-        public TeacherPresenter (TeacherLogic logic)
+        public TeacherPresenter (IteacherLogic logic)
         {
             _logic = logic;
         }
