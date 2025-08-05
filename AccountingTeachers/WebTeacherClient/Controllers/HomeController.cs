@@ -1,11 +1,10 @@
 using Contracts.BindingContract;
 using Contracts.ViewContract;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Diagnostics;
-using WebClietn.Models;
+using WebTeacherClient.Models;
 
-namespace WebClietn.Controllers
+namespace WebTeacherClient.Controllers
 {
     public class HomeController : Controller
     {
@@ -80,17 +79,6 @@ namespace WebClietn.Controllers
 
             return RedirectToAction("Enter");
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

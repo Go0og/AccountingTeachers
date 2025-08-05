@@ -3,10 +3,9 @@ using Contracts.PresenterContract;
 using Contracts.StorageContract;
 using DataBaseImplements.Implements;
 using Interactors;
-using Microsoft.OpenApi.Models;
 using Presenters;
 
-namespace RestAPI
+namespace TeacherRestAPI
 {
     public class Program
     {
@@ -15,7 +14,6 @@ namespace RestAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
 
             // -------STORAGE----------
             builder.Services.AddTransient<ITeacherStorage, TeacherStorage>();
@@ -36,11 +34,7 @@ namespace RestAPI
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(s => s.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "AccountingTeacher",
-                Version = "V1"
-            }));
+            builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
@@ -48,12 +42,13 @@ namespace RestAPI
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json",
-                                "AccountingTeacher v1"));
+                app.UseSwaggerUI();
             }
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
 
             app.MapControllers();
 

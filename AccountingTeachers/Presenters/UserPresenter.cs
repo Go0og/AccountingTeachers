@@ -28,10 +28,10 @@ namespace Presenters
             }
             var NewViewModel = new UserView
             {
-                Id = (int)model.Id,
-                Name = model.Name,
-                Password = model.Password,
-                Email = model.Email
+                Id = (int)models.Id,
+                Name = models.Name,
+                Password = models.Password,
+                Email = models.Email
             };
             return NewViewModel;
         }

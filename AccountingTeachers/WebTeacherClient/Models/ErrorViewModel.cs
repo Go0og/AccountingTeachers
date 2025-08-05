@@ -1,4 +1,4 @@
-namespace WebClietn.Models
+namespace WebTeacherClient.Models
 {
     public class ErrorViewModel
     {

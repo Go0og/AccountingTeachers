@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace WebClietn
+namespace WebTeacherClient
 {
-    public class APIClient
+    public static class APIClient
     {
         private static readonly HttpClient _client = new();
 
-        public static UserView? _user {  get; set; } = null; 
+        public static UserView? _user { get; set; } = null;
 
         public static void Connect(IConfiguration configuration)
         {
@@ -43,6 +43,5 @@ namespace WebClietn
                 throw new Exception(result);
             }
         }
-
     }
 }
