@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -48,23 +49,26 @@ namespace DataBaseImplements.Migrations
                     bet = table.Column<int>(type: "int", nullable: false),
                     TitleTeacher = table.Column<int>(type: "int", nullable: false),
                     PositionTeacher = table.Column<int>(type: "int", nullable: false),
-                    departmentId = table.Column<int>(type: "int", nullable: false)
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateSwap = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teachers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teachers_Departments_departmentId",
-                        column: x => x.departmentId,
+                        name: "FK_Teachers_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teachers_departmentId",
+                name: "IX_Teachers_DepartmentId",
                 table: "Teachers",
-                column: "departmentId");
+                column: "DepartmentId");
         }
 
         /// <inheritdoc />

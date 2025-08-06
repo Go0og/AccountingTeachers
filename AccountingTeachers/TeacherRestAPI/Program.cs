@@ -30,6 +30,7 @@ namespace TeacherRestAPI
             builder.Services.AddTransient<ITeacherPresenter, TeacherPresenter>();
             builder.Services.AddTransient<IUserPresenter, UserPresenter>();
             builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
+            builder.Services.AddTransient<IDepartmensTeachersPresenter, DepartmentTeacherPresenter>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

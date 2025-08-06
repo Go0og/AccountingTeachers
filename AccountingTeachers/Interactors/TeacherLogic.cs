@@ -34,7 +34,7 @@ namespace Interactors
 
         public List<TeacherBindingModel> GetTeacherList(TeacherSearch? model)
         {
-            var models = _storage.GetFillteredList(model);
+            var models = model == null ? _storage.GetFullList() : _storage.GetFillteredList(model);
             if (models == null)
             {
                 return new();
@@ -56,9 +56,9 @@ namespace Interactors
                 bet = model.bet,
                 TitleTeacher = model.TitleTeacher,
                 PositionTeacher = model.PositionTeacher,
-                departmentId = model.departmentId,
+                DepartmentId = model.DepartmentId,
                 DateStart = model.DateStart,
-                DateSwap = model.DateSwap,
+                DateSwap = (DateTime?)model.DateSwap,
                 DateEnd = model.DateEnd,
             };
         }

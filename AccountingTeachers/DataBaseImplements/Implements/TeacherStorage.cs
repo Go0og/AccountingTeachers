@@ -26,6 +26,13 @@ namespace DataBaseImplements.Implements
                     .Where(x => x.DateStart >= SearchModel.DateStart  && x.DateEnd<= SearchModel.DateEnd)
                     .ToList();
             }
+            if (SearchModel.DeparmentId.HasValue)
+            {
+                return context.Teachers
+                    .Where(x => x.DepartmentId == SearchModel.DeparmentId)
+                    .ToList();
+            }
+
             return new();
         }
 

@@ -15,6 +15,7 @@ namespace TeacherRestAPI.Controllers
         private readonly IUserPresenter userPresenter;
         private readonly ITeacherPresenter teacherPresenter;
         private readonly IDepartmentPresenter departmentPresenter;
+        private readonly IDepartmensTeachersPresenter departmensTeachersPresenter;
 
         private readonly IUserLogic userLogic;
         private readonly IteacherLogic teacherLogic;
@@ -24,13 +25,14 @@ namespace TeacherRestAPI.Controllers
         private readonly ITeacherStorage teacherStorage;
         private readonly IDepartmentStorage departmentStorage;
 
-        public MainController(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter,
+        public MainController(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter, IDepartmensTeachersPresenter DepartmentTeacherPresenter,
                                 IUserLogic UserLogic, IteacherLogic TeacherLogic, IDepartmentLogic DepartmentLogic,
                                 IUserStorage UserStorage, ITeacherStorage TeacherStorage, IDepartmentStorage DepartmentStorage)
         {
             userPresenter = UserPresenter;
             teacherPresenter = TeacherPresenter;
             departmentPresenter = DepartmentPresenter;
+            departmensTeachersPresenter = DepartmentTeacherPresenter;
 
             userLogic = UserLogic;
             teacherLogic = TeacherLogic;
@@ -57,6 +59,10 @@ namespace TeacherRestAPI.Controllers
             });
         }
 
-
+        [HttpGet]
+        public List<DepartmentTeacherView> get_depatrment_teacher()
+        {
+            return departmensTeachersPresenter.MakeDepartmentList();
+        }
     }
 }

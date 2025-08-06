@@ -34,7 +34,7 @@ namespace Interactors
 
         public List<DepartmentBindingModel> GetDepartmentList(DepartmentSearch? model)
         {
-            var models = _storage.GetFillteredList(model);
+            var models =model == null ? _storage.GetFullList() :_storage.GetFillteredList(model) ;
             if (models == null)
             {
                 return new();

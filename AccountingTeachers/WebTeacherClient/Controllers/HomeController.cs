@@ -81,9 +81,17 @@ namespace WebTeacherClient.Controllers
         }
 
 
+        public IActionResult Accounting()
+        {
+            return View();
+        }
 
-
-
+        [HttpGet]
+        public IActionResult GetAllAccountingData()
+        {
+            var data = APIClient.GetRequest<List<DepartmentTeacherView>>(@"api/main/get_depatrment_teacher");
+            return Json(data);
+        }
 
 
 
