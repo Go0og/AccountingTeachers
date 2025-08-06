@@ -20,6 +20,9 @@ namespace Contracts.BindingContract
 
         public PositionTeacher PositionTeacher { get; set; } = PositionTeacher.Не_указано;
 
+        public DateTime DateStart { get; set; }
+        public DateTime DateSwap { get; set; }
+        public DateTime DateEnd { get; set; }
         public int departmentId { get; set; }
 
         

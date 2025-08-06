@@ -31,10 +31,13 @@ namespace Presenters
             {
                 Id = (int)model.Id,
                 FIO = model.FIO,
-                bet = model.bet,
+                bet = (int)model.bet,
                 PositionTeacher = model.PositionTeacher.ToString(),
                 TitleTeacher = model.TitleTeacher.ToString(),
                 departmentId = (int)model.DeparmentId,
+                DateStart = (DateTime)model.DateStart,
+                DateSwap = (DateTime)model.DateSwap,
+                DateEnd = (DateTime)model.DateEnd,
 
             };
             return NewViewModel;
@@ -55,6 +58,9 @@ namespace Presenters
                     PositionTeacher = model.PositionTeacher.ToString(),
                     TitleTeacher = model.TitleTeacher.ToString(),
                     departmentId = (int)model.DeparmentId,
+                    DateStart = (DateTime)model.DateStart,
+                    DateSwap = (DateTime)model.DateSwap,
+                    DateEnd = (DateTime)model.DateEnd,
                 });
             }
             return teacherViews;

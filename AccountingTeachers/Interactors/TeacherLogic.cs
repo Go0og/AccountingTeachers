@@ -56,7 +56,10 @@ namespace Interactors
                 bet = model.bet,
                 TitleTeacher = model.TitleTeacher,
                 PositionTeacher = model.PositionTeacher,
-                departmentId = model.departmentId
+                departmentId = model.departmentId,
+                DateStart = model.DateStart,
+                DateSwap = model.DateSwap,
+                DateEnd = model.DateEnd,
             };
         }
     }

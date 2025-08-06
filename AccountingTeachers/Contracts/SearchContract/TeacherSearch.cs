@@ -11,9 +11,12 @@ namespace Contracts.SearchContract
     {
         public int? Id { get; set; }
         public string? FIO { get; set; }
-        public int bet {  get; set; }
+        public int? bet {  get; set; }
         public TitleTeacher? TitleTeacher { get; set; }
         public PositionTeacher? PositionTeacher { get; set; }
         public int? DeparmentId { get; set; }
+        public DateTime? DateStart { get; set; }
+        public DateTime? DateSwap { get; set; }
+        public DateTime? DateEnd { get; set; }
     }
 }

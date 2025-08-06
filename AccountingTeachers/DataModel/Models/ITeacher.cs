@@ -19,5 +19,11 @@ namespace DataModel.Models
 
         int departmentId { get; }
 
+        DateTime DateStart { get; }
+
+        DateTime DateSwap { get; }
+        DateTime DateEnd { get; }
+
+
     }
 }

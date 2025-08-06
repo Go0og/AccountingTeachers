@@ -21,6 +21,9 @@ namespace Contracts.StorageContract.dbModels
 
         public PositionTeacher PositionTeacher { get; set; }
 
+        public DateTime DateStart { get; set; }
+        public DateTime DateSwap { get; set; }
+        public DateTime DateEnd { get; set; }
         public int departmentId { get; set; }
         public Department? Department { get; set; }
 
@@ -35,6 +38,9 @@ namespace Contracts.StorageContract.dbModels
                 Id = model.Id,
                 FIO = model.FIO,
                 bet = model.bet,
+                DateStart = model.DateStart,
+                DateSwap = model.DateSwap,
+                DateEnd = model.DateEnd,
                 departmentId = model.departmentId,
                 TitleTeacher = model.TitleTeacher,
                 PositionTeacher = model.PositionTeacher
@@ -49,6 +55,9 @@ namespace Contracts.StorageContract.dbModels
             FIO = model.FIO;
             bet = model.bet;
             departmentId = model.departmentId;
+            DateStart = model.DateStart;
+            DateSwap = model.DateSwap;
+            DateEnd = model.DateEnd;
             TitleTeacher = model.TitleTeacher;
             PositionTeacher = model.PositionTeacher;
         }
