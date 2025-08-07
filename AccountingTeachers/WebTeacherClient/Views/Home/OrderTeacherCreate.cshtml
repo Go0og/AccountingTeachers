@@ -33,9 +33,9 @@
             <div class="col-8">
                 <select id="department" name="department" class="form-control">
                     <option value="">Кафедра не выбрана</option>
-                    @foreach (var teacher in ViewBag.department)
+                    @foreach (var department in ViewBag.departments)
                     {
-                        <option value="@teacher.Id">@teacher.FIO</option>
+                        <option value="@department.Id">@department.Name</option>
                     }
                 </select>
             </div>
@@ -54,8 +54,17 @@
             </div>
         </div>
 
+        <div class="col-auto">
+            <input type="date" class="form-control" placeholder="Дата начала" name="datestart">
+        </div>
+        <div class="col-auto">
+            <input type="date" class="form-control" placeholder="Дата конца" name="dateend">
+        </div>
+        <div class="col-auto">
+            <input type="number" class="form-control" placeholder="Оплата в час" name="bet" />
+        </div>
 
-
+        <input type="submit" name="action" value="Сохранить" class="btn btn-primary" />
     </form>
 
 

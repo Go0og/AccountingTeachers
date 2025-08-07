@@ -55,12 +55,12 @@ namespace Presenters
                     Id = (int)item.Id,
                     FIO = item.FIO,
                     bet = item.bet,
-                    PositionTeacher = model.PositionTeacher.ToString(),
-                    TitleTeacher = model.TitleTeacher.ToString(),
-                    DepartmentId = (int)model.DeparmentId,
-                    DateStart = (DateTime)model.DateStart,
-                    DateSwap = (DateTime)model.DateSwap,
-                    DateEnd = (DateTime)model.DateEnd,
+                    PositionTeacher = item.PositionTeacher.ToString(),
+                    TitleTeacher = item.TitleTeacher.ToString(),
+                    DepartmentId = (int)item.DepartmentId,
+                    DateStart = (DateTime)item.DateStart,
+                    DateSwap = (DateTime?)item.DateSwap,
+                    DateEnd = (DateTime)item.DateEnd,
                 });
             }
             return teacherViews;

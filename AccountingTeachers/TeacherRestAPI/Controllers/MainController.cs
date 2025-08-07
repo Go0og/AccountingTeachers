@@ -78,5 +78,23 @@ namespace TeacherRestAPI.Controllers
         {
             return ordersPresenter.MakeOrderList(null); 
         }
+
+        [HttpGet]
+        public List<TeacherView> get_full_teacher()
+        {
+            return teacherPresenter.MakeTeacherList(null);
+        }
+
+        [HttpGet]
+        public List<DepartmentView> get_full_department()
+        {
+            return departmentPresenter.MakeDepartmentList(null);
+        }
+
+        [HttpPost]
+        public void save_order(TeacherBindingModel model)
+        {
+            
+        }
     }
 }

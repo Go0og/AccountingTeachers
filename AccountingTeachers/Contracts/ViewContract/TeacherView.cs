@@ -16,7 +16,7 @@ namespace Contracts.ViewContract
         public string PositionTeacher { get; set; } = string.Empty;
         public int DepartmentId { get; set; }
         public DateTime DateStart { get; set; }
-        public DateTime DateSwap { get; set; }
+        public DateTime? DateSwap { get; set; }
         public DateTime DateEnd { get; set; }
     }
 }

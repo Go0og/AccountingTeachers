@@ -1,6 +1,8 @@
 using Contracts.BindingContract;
 using Contracts.ViewContract;
+using DataModel.enums;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Diagnostics;
 using WebTeacherClient.Models;
 
@@ -99,8 +101,76 @@ namespace WebTeacherClient.Controllers
             return View(APIClient.GetRequest<List<OrderView>>($"api/main/get_orders_all"));
         }
 
+        [HttpGet]
+        public IActionResult OrderTeacherCreate()
+        {
+            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult OrderTeacherCreate(TypeOrders typeorders, int teacherid, string datestart, string dateend, int bet, string action)
+        {
+            if (typeorders.ToString() == string.Empty)
+            {
+                ViewBag.ErrorMessage("not type orders");
+                ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+                ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+                return View();
+            }
+            if (teacherid.ToString() == string.Empty)
+            {
+                ViewBag.ErrorMessage("not pic teacher");
+                ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+                ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+                return View();
+            }
+            if (Convert.ToDateTime(datestart) < Convert.ToDateTime("01.01.2000") || Convert.ToDateTime(dateend) < Convert.ToDateTime("01.01.2000")
+                    || Convert.ToDateTime(datestart) > Convert.ToDateTime("01.01.3000") || Convert.ToDateTime(dateend) > Convert.ToDateTime("01.01.3000"))
+            {
+                ViewBag.ErrorMessage = "Bad datetime";
+                ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+                ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+                return View();
+            }
+            if (bet <= 0 || bet > 7000)
+            {
+                ViewBag.ErrorMessage = "Bad bet";
+                ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+                ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+                return View();
+            }
+            if (action == "Сохранить")
+            {
+                APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+                {
+                    TeacherID = teacherid,
+                    DateOrder = DateTime.Now,
+                    TypeOrder = typeorders,
+                });
+                if (typeorders == TypeOrders.Swap)
+                {
+                    APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                    {
+                        DateSwap = Convert.ToDateTime(datestart),
+                        DateEnd = Convert.ToDateTime(dateend),
+                        bet = bet,
 
+                    });
+                }
+                else if (typeorders == TypeOrders.Hiring)
+                {
+                    APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                    {
+                        DateStart = Convert.ToDateTime(datestart),
+                        DateEnd = Convert.ToDateTime(dateend),
+                        bet = bet,
 
+                    });
+                }
+            }
+            return View("OrderTeacher");
+        }
     }
 }
