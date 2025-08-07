@@ -1,0 +1,63 @@
+﻿@using DataModel.enums
+@model TypeOrders
+@{
+    ViewData["Title"] = "OrderTeacherCreate";
+}
+<div class="text-center">
+    <h2 class="display-4">Форма создания приказа</h2>
+</div>
+<div class="text-center">
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+    }
+    <form method="post">
+        <div class="row">
+            <div class="col-4">Тип приказа:</div>
+            <div class="col-8">
+                <select id="TypeOrders" name="TypeOrders" class="form-control">
+                    <option value="@TypeOrders.No_type">Выберите тип</option>
+                    <option value="@TypeOrders.Hiring">Найм</option>
+                    <option value="@TypeOrders.Swap">Перевод</option>
+                    <option value="@TypeOrders.Firing">Увольнение</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-4">Выберите кафедру:</div>
+            <div class="col-8">
+                <select id="department" name="department" class="form-control">
+                    <option value="">Кафедра не выбрана</option>
+                    @foreach (var teacher in ViewBag.department)
+                    {
+                        <option value="@teacher.Id">@teacher.FIO</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">Выберите преподавателя:</div>
+            <div class="col-8">
+                 <select id="teacher" name="teacher" class="form-control">
+                <option value="">Преподаватель не выбран</option>
+                @foreach (var teacher in ViewBag.teachers)
+                {
+                    <option value="@teacher.Id">@teacher.FIO</option>
+                }
+            </select>
+            </div>
+        </div>
+
+
+
+    </form>
+
+
+
+</div>

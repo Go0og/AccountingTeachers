@@ -19,11 +19,13 @@ namespace TeacherRestAPI
             builder.Services.AddTransient<ITeacherStorage, TeacherStorage>();
             builder.Services.AddTransient<IUserStorage, UserStorage>();
             builder.Services.AddTransient<IDepartmentStorage, DeparmentStorage>();
+            builder.Services.AddTransient<IOrderStorage, OrderStorage>();
 
             // ------INTERACTORS---------
             builder.Services.AddTransient<IteacherLogic, TeacherLogic>();
             builder.Services.AddTransient<IUserLogic, UserLogic>();
             builder.Services.AddTransient<IDepartmentLogic, DepartmensLogic>();
+            builder.Services.AddTransient<IOrdersLogic, OrderLogic>();
 
             // -----PRESENTERS----------
 
@@ -31,6 +33,7 @@ namespace TeacherRestAPI
             builder.Services.AddTransient<IUserPresenter, UserPresenter>();
             builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
             builder.Services.AddTransient<IDepartmensTeachersPresenter, DepartmentTeacherPresenter>();
+            builder.Services.AddTransient<IOrdersPresenter, OrderPresenter>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -39,6 +39,30 @@ namespace DataBaseImplements.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Contracts.StorageContract.dbModels.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateOrders")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TeacherID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TypeOrders")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherID");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("Contracts.StorageContract.dbModels.Teacher", b =>
                 {
                     b.Property<int>("Id")
@@ -102,6 +126,17 @@ namespace DataBaseImplements.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Contracts.StorageContract.dbModels.Order", b =>
+                {
+                    b.HasOne("Contracts.StorageContract.dbModels.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("Contracts.StorageContract.dbModels.Teacher", b =>

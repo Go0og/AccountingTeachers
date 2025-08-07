@@ -89,12 +89,15 @@ namespace WebTeacherClient.Controllers
         [HttpGet]
         public IActionResult GetAllAccountingData()
         {
-            var data = APIClient.GetRequest<List<DepartmentTeacherView>>(@"api/main/get_depatrment_teacher");
+            var data = APIClient.GetRequest<List<DepartmentTeacherView>>($"api/main/get_depatrment_teacher");
             return Json(data);
         }
 
-
-
+        [HttpGet]
+        public IActionResult OrderTeacher()
+        {
+            return View(APIClient.GetRequest<List<OrderView>>($"api/main/get_orders_all"));
+        }
 
 
 

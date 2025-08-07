@@ -16,31 +16,38 @@ namespace TeacherRestAPI.Controllers
         private readonly ITeacherPresenter teacherPresenter;
         private readonly IDepartmentPresenter departmentPresenter;
         private readonly IDepartmensTeachersPresenter departmensTeachersPresenter;
+        private readonly IOrdersPresenter ordersPresenter;
 
         private readonly IUserLogic userLogic;
         private readonly IteacherLogic teacherLogic;
         private readonly IDepartmentLogic departmentLogic;
+        private IOrdersLogic ordersLogic;
 
         private readonly IUserStorage userStorage;
         private readonly ITeacherStorage teacherStorage;
         private readonly IDepartmentStorage departmentStorage;
+        private readonly IOrderStorage orderStorage;
 
-        public MainController(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter, IDepartmensTeachersPresenter DepartmentTeacherPresenter,
-                                IUserLogic UserLogic, IteacherLogic TeacherLogic, IDepartmentLogic DepartmentLogic,
-                                IUserStorage UserStorage, ITeacherStorage TeacherStorage, IDepartmentStorage DepartmentStorage)
+        public MainController(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter,
+                                IDepartmensTeachersPresenter DepartmentTeacherPresenter, IOrdersPresenter OrdersPresenter,
+                                IUserLogic UserLogic, IteacherLogic TeacherLogic, IDepartmentLogic DepartmentLogic, IOrdersLogic OrdersLogic,
+                                IUserStorage UserStorage, ITeacherStorage TeacherStorage, IDepartmentStorage DepartmentStorage, IOrderStorage OrderStorage)
         {
             userPresenter = UserPresenter;
             teacherPresenter = TeacherPresenter;
             departmentPresenter = DepartmentPresenter;
             departmensTeachersPresenter = DepartmentTeacherPresenter;
+            ordersPresenter = OrdersPresenter;
 
             userLogic = UserLogic;
             teacherLogic = TeacherLogic;
             departmentLogic = DepartmentLogic;
+            ordersLogic = OrdersLogic;
 
             userStorage = UserStorage;
             teacherStorage = TeacherStorage;
             departmentStorage = DepartmentStorage;
+            orderStorage = OrderStorage;
         }
 
         [HttpPost]
@@ -63,6 +70,13 @@ namespace TeacherRestAPI.Controllers
         public List<DepartmentTeacherView> get_depatrment_teacher()
         {
             return departmensTeachersPresenter.MakeDepartmentList();
+        }
+
+
+        [HttpGet]
+        public List<OrderView> get_orders_all()
+        {
+            return ordersPresenter.MakeOrderList(null); 
         }
     }
 }

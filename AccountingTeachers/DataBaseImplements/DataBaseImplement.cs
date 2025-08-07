@@ -17,5 +17,6 @@ namespace DataBaseImplements
         public DbSet<User> Users { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }
