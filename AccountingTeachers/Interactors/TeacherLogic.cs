@@ -47,6 +47,15 @@ namespace Interactors
             return bindingModels;
         }
 
+        public bool UpdateTeacher(TeacherBindingModel model)
+        {
+            if (_storage.UpdateTeacher(model) == false)
+            {
+                return false;
+            }
+                
+            return true;
+        }
         public TeacherBindingModel getBinding(Teacher model)
         {
             return new()

@@ -1,6 +1,8 @@
-﻿using Contracts.SearchContract;
+﻿using Contracts.BindingContract;
+using Contracts.SearchContract;
 using Contracts.StorageContract;
 using Contracts.StorageContract.dbModels;
+using DataModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +42,32 @@ namespace DataBaseImplements.Implements
                     .ToList();
             }
             return new();
+        }
+
+        public bool CreateOrder (OrderBindignModel model)
+        {
+            var NewOrder = Order.Create (model);
+            if (NewOrder == null)
+            {
+                return false;
+            }
+            using var context = new DataBaseImplement();
+            context.Orders.Add (NewOrder);
+            context.SaveChanges ();
+            return true;
+        }
+
+        public bool UpdateOrder(OrderBindignModel model)
+        {
+            using var context = new DataBaseImplement();
+            var UpdateUser = context.Orders.FirstOrDefault(x => x.Id == model.Id);
+            if (UpdateUser == null)
+            {
+                return false;
+            }
+            UpdateUser.Update(model);
+            context.SaveChanges();
+            return true;
         }
 
         public List<Order> GetFullOrders()

@@ -1,6 +1,8 @@
-﻿using Contracts.SearchContract;
+﻿using Contracts.BindingContract;
+using Contracts.SearchContract;
 using Contracts.StorageContract;
 using Contracts.StorageContract.dbModels;
+using DataModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +58,19 @@ namespace DataBaseImplements.Implements
                     .FirstOrDefault(x => x.FIO == SearchModel.FIO);
             }
             return null;
+        }
+
+        public bool UpdateTeacher(TeacherBindingModel model)
+        {
+            using var context = new DataBaseImplement();
+            var UpdateTeacher = context.Teachers.FirstOrDefault(x => x.Id == model.Id);
+            if (UpdateTeacher == null)
+            {
+                return false;
+            }
+            UpdateTeacher.Update(model);
+            context.SaveChanges();
+            return true;
         }
     }
 }

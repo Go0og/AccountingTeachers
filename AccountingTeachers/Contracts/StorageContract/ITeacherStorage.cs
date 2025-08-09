@@ -1,4 +1,5 @@
-﻿using Contracts.SearchContract;
+﻿using Contracts.BindingContract;
+using Contracts.SearchContract;
 using Contracts.StorageContract.dbModels;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Contracts.StorageContract
         public List<Teacher> GetFullList();
         public List<Teacher> GetFillteredList(TeacherSearch SearchModel);
         public Teacher? GetTeacher(TeacherSearch SearchModel);
+        public bool UpdateTeacher(TeacherBindingModel model);
     }
 }

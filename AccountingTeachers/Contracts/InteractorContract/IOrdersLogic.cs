@@ -12,5 +12,7 @@ namespace Contracts.InteractorContract
     {
         public List<OrderBindignModel> GetOrderList(OrderSearch? model);
         public OrderBindignModel GetOrder(OrderSearch model);
+        public bool CreateOrder(OrderBindignModel model);
+        public bool UpdateOrder(OrderBindignModel model);
     }
 }

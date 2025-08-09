@@ -52,14 +52,35 @@ namespace Contracts.StorageContract.dbModels
             {
                 return;
             }
-            FIO = model.FIO;
-            bet = model.bet;
-            DepartmentId = model.DepartmentId;
-            DateStart = model.DateStart;
+            if (model.FIO != "")
+            {
+                FIO = model.FIO;
+            }
+            if (model.bet > 100 && model.bet < 999999)
+            {
+                bet = model.bet;
+            }
+            if (model.DepartmentId > 0)
+            {
+                DepartmentId = model.DepartmentId;
+            }
+            if (model.DateStart < DateTime.Parse("01.01.1900")) 
+            {
+                DateStart = model.DateStart;
+            }
             DateSwap = model.DateSwap;
-            DateEnd = model.DateEnd;
-            TitleTeacher = model.TitleTeacher;
-            PositionTeacher = model.PositionTeacher;
+            if (model.DateEnd < DateTime.Parse("01.01.1900"))
+            {
+                DateEnd = model.DateEnd;
+            }
+            if (model.TitleTeacher != TitleTeacher.Не_указано)
+            {
+                TitleTeacher = model.TitleTeacher;
+            }
+            if (model.PositionTeacher != PositionTeacher.Не_указано)
+            {
+                PositionTeacher = model.PositionTeacher;
+            }
         }
 
     }

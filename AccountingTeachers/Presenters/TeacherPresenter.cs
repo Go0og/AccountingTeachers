@@ -29,15 +29,15 @@ namespace Presenters
             }
             var NewViewModel = new TeacherView
             {
-                Id = (int)model.Id,
-                FIO = model.FIO,
-                bet = (int)model.bet,
-                PositionTeacher = model.PositionTeacher.ToString(),
-                TitleTeacher = model.TitleTeacher.ToString(),
-                DepartmentId = (int)model.DeparmentId,
-                DateStart = (DateTime)model.DateStart,
-                DateSwap = (DateTime)model.DateSwap,
-                DateEnd = (DateTime)model.DateEnd,
+                Id = (int)models.Id,
+                FIO = models.FIO,
+                bet = (int)models.bet,
+                PositionTeacher = models.PositionTeacher.ToString(),
+                TitleTeacher = models.TitleTeacher.ToString(),
+                DepartmentId = models.DepartmentId,
+                DateStart = (DateTime)models.DateStart,
+                DateSwap = (DateTime?)models.DateSwap,
+                DateEnd = (DateTime)models.DateEnd,
 
             };
             return NewViewModel;

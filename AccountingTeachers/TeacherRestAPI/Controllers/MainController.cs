@@ -92,9 +92,31 @@ namespace TeacherRestAPI.Controllers
         }
 
         [HttpPost]
-        public void save_order(TeacherBindingModel model)
+        public void save_order(OrderBindignModel model)
         {
-            
+            if (model.Id >0)
+            {
+                ordersLogic.UpdateOrder(model);
+            }
+            else
+            {
+                ordersLogic.CreateOrder(model);
+                
+            }
+        }
+        [HttpPost]
+        public void update_teacher(TeacherBindingModel model)
+        {
+            teacherLogic.UpdateTeacher(model);
+        }
+        [HttpGet]
+        public OrderView? get_order(int id) { 
+            return ordersPresenter.MakeOrder(new OrderSearch { Id = id });
+        }
+        [HttpGet]
+        public TeacherView? get_teacher(int id)
+        {
+            return teacherPresenter.MakeTeacher(new TeacherSearch { Id = id });
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Contracts.SearchContract;
+﻿using Contracts.BindingContract;
+using Contracts.SearchContract;
 using Contracts.StorageContract.dbModels;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace Contracts.StorageContract
         public List<Order> GetFullOrders();
         public List<Order> GetFillteredList(OrderSearch SearchModel);
         public Order? GetOrder(OrderSearch SearchModel);
+        public bool CreateOrder(OrderBindignModel model);
+        public bool UpdateOrder(OrderBindignModel model);
     }
 }

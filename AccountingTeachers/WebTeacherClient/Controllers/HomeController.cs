@@ -102,15 +102,23 @@ namespace WebTeacherClient.Controllers
         }
 
         [HttpGet]
-        public IActionResult OrderTeacherCreate()
+        public IActionResult OrderTeacherCreate(int? Note_id)
         {
             ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
             ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            if (Note_id != null) 
+            {
+                var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
+                var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");
+                ViewBag.teacher = Teacher;
+                ViewBag.order = Order;
+            }
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult OrderTeacherCreate(TypeOrders typeorders, int teacherid, string datestart, string dateend, int bet, string action)
+        public IActionResult OrderTeacherCreate(TypeOrders typeorders,int department, int teacher, string datestart, string dateend, int bet,string positionteacher, string action)
         {
             if (typeorders.ToString() == string.Empty)
             {
@@ -119,9 +127,23 @@ namespace WebTeacherClient.Controllers
                 ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
                 return View();
             }
-            if (teacherid.ToString() == string.Empty)
+            if (department < 1)
+            {
+                ViewBag.ErrorMessage("not pic department");
+                ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+                ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+                return View();
+            }
+            if (teacher.ToString() == string.Empty)
             {
                 ViewBag.ErrorMessage("not pic teacher");
+                ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+                ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+                return View();
+            }
+            if(positionteacher == string.Empty)
+            {
+                ViewBag.ErrorMessage("not pic position teacher");
                 ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
                 ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
                 return View();
@@ -145,7 +167,7 @@ namespace WebTeacherClient.Controllers
             {
                 APIClient.PostRequest("api/main/save_order", new OrderBindignModel
                 {
-                    TeacherID = teacherid,
+                    TeacherID = teacher,
                     DateOrder = DateTime.Now,
                     TypeOrder = typeorders,
                 });
@@ -153,24 +175,36 @@ namespace WebTeacherClient.Controllers
                 {
                     APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
                     {
+                        Id = teacher,
+                        DepartmentId = department,
+                        PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
                         DateSwap = Convert.ToDateTime(datestart),
                         DateEnd = Convert.ToDateTime(dateend),
                         bet = bet,
-
                     });
                 }
                 else if (typeorders == TypeOrders.Hiring)
                 {
                     APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
                     {
-                        DateStart = Convert.ToDateTime(datestart),
+                        Id = teacher,
+                        DepartmentId = department,
+                        PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
+                        DateSwap = Convert.ToDateTime(datestart),
                         DateEnd = Convert.ToDateTime(dateend),
                         bet = bet,
 
                     });
                 }
             }
+            OrderTeacher();
             return View("OrderTeacher");
         }
+
+
+
+
+
+
     }
 }

@@ -59,5 +59,23 @@ namespace Interactors
                 DateOrder = model.DateOrders,
             };
         }
+
+        public bool CreateOrder(OrderBindignModel model)
+        {
+            if (_storage.CreateOrder(model) == false)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool UpdateOrder(OrderBindignModel model)
+        {
+            if (_storage.UpdateOrder(model) == false)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿@using DataModel.enums
+﻿@using Contracts.ViewContract
+@using DataModel.enums
 @model TypeOrders
 @{
     ViewData["Title"] = "OrderTeacherCreate";
@@ -7,13 +8,6 @@
     <h2 class="display-4">Форма создания приказа</h2>
 </div>
 <div class="text-center">
-    @{
-        if (Model == null)
-        {
-            <h3 class="display-4">Авторизируйтесь</h3>
-            return;
-        }
-    }
     <form method="post">
         <div class="row">
             <div class="col-4">Тип приказа:</div>
@@ -54,6 +48,18 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-4">Позиция преподавателя:</div>
+            <div class="col-8">
+                <select id="positionteacher" name="positionteacher" class="form-control">
+                    <option value="@DataModel.enums.PositionTeacher.Не_указано">Выберите тип</option>
+                    <option value="@DataModel.enums.PositionTeacher.Head_of_the_laboratory">Заведующий лабораториями</option>
+                    <option value="@DataModel.enums.PositionTeacher.teacher">Преподаватель</option>
+                    <option value="@DataModel.enums.PositionTeacher.Senior_lecturer">Старший преподаватель</option>
+                </select>
+            </div>
+        </div>
+
         <div class="col-auto">
             <input type="date" class="form-control" placeholder="Дата начала" name="datestart">
         </div>
@@ -66,7 +72,37 @@
 
         <input type="submit" name="action" value="Сохранить" class="btn btn-primary" />
     </form>
+        @if (ViewBag.teacher != null && ViewBag.order != null)
+        {
 
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>Приказ на настоящее время</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Тип приказа:</strong> @ViewBag.order.TypeOrders</p>
+                <p>
+                    <strong>Кафедра:</strong>
+                    @{
+                        var department = ((List<DepartmentView>)ViewBag.departments)?.FirstOrDefault(d => d.Id == ViewBag.teacher.DepartmentId);
+                        @(department?.Name ?? "Кафедра не указана")
+                    }
+                </p>
+                    <p><strong>Преподаватель:</strong> @ViewBag.teacher.FIO</p>
+                    <p><strong>Позиция преподавателя:</strong> @ViewBag.teacher.PositionTeacher</p>
+                    @if (ViewBag.order.TypeOrders == TypeOrders.Swap.ToString())
+                    {
+                        <p><strong>Дата перевода:</strong> @ViewBag.teacher.DateSwap?.ToString("dd.MM.yyyy")</p>
+                    }
+                    else
+                    {
+                        <p><strong>Дата принятия:</strong> @ViewBag.teacher.DateStart?.ToString("dd.MM.yyyy")</p>
+                    }
+                <p><strong>Дата конца:</strong> @ViewBag.teacher.DateEnd.ToString("dd.MM.yyyy")</p>
+                    <p><strong>Оплата в час:</strong> @ViewBag.teacher.bet</p>
+                </div>
+            </div>
+        }
 
 
 </div>

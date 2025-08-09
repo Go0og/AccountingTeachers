@@ -12,5 +12,6 @@ namespace Contracts.InteractorContract
     {
         public List<TeacherBindingModel> GetTeacherList(TeacherSearch? model);
         public TeacherBindingModel GetTeacher(TeacherSearch model);
+        public bool UpdateTeacher(TeacherBindingModel model); 
     }
 }
