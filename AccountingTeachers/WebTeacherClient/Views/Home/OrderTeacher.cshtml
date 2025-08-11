@@ -44,10 +44,11 @@
         <tbody>
             @foreach (var item in Model)
             {
+
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.TypeOrders</td>
-                    <td>@item.TeacherID</td>
+                    <td>@ViewBag.Name[item.TeacherID]</td>
                     <td>@item.DateOrder</td>
                     <td>
                         <a href="@Url.Action("OrderTeacherCreate", new { Note_id = item.Id })" class="btn btn-sm btn-primary">
