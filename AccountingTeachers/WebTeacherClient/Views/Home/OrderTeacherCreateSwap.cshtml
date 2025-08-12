@@ -1,0 +1,106 @@
+﻿@using Contracts.ViewContract
+@using DataModel.enums
+@model TypeOrders
+@{
+    ViewData["Title"] = "OrderTeacherCreateSwap";
+}
+<div class="text-center">
+    <h2 class="display-4">Форма создания приказа перевода</h2>
+</div>
+<div class="text-center">
+    <form method="post">      
+
+            <div class="row">
+                <div class="col-4">Текущая кафедра:</div>
+                <div class="col-8">
+                    <select id="currentDepartment" class="form-control" onchange="loadTeachers(this.value, 'currentTeacher')">
+                        <option value="">Кафедра не выбрана</option>
+                        @foreach (var department in ViewBag.departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">Выберите преподавателя:</div>
+                <div class="col-8">
+                    <select id="currentTeacher" name="teacher" class="form-control">
+                        <option value="">Сначала выберите кафедру</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">Новая кафедра:</div>
+                <div class="col-8">
+                    <select id="newDepartment" name="newDepartment" class="form-control">
+                        <option value="">Выберите новую кафедру</option>
+                        @foreach (var department in ViewBag.departments)
+                        {
+                            <option value="@department.Id">@department.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">Позиция преподавателя:</div>
+                <div class="col-8">
+                    <select id="positionteacher" name="positionteacher" class="form-control">
+                        <option value="@DataModel.enums.PositionTeacher.Не_указано">Выберите тип</option>
+                        <option value="@DataModel.enums.PositionTeacher.Head_of_the_laboratory">Заведующий лабораториями</option>
+                        <option value="@DataModel.enums.PositionTeacher.teacher">Преподаватель</option>
+                        <option value="@DataModel.enums.PositionTeacher.Senior_lecturer">Старший преподаватель</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-auto">
+                <input type="date" class="form-control" placeholder="Дата перевода" name="dateswap">
+            </div>
+            <div class="col-auto">
+                <input type="date" class="form-control" placeholder="Дата конца" name="dateend">
+            </div>
+            <div class="col-auto">
+                <input type="number" class="form-control" placeholder="Оплата в час" name="bet" />
+            </div>
+        
+
+        <input type="submit" name="action" value="Сохранить" class="btn btn-primary" />
+    </form>
+
+</div>
+
+<script>
+ 
+
+    // Универсальная функция для загрузки преподавателей
+    function loadTeachers(departmentId, teacherSelectId) {
+        var teacherSelect = document.getElementById(teacherSelectId);
+        teacherSelect.innerHTML = '<option value="">Загрузка...</option>';
+
+        // Получаем всех преподавателей из ViewBag
+        var allTeachers = @Html.Raw(Json.Serialize(ViewBag.teachers));
+
+        // Фильтруем преподавателей по выбранной кафедре
+        var filteredTeachers = allTeachers.filter(function(teacher) {
+            return teacher.departmentId == departmentId;
+        });
+
+        // Очищаем и заполняем select
+        teacherSelect.innerHTML = '<option value="">Выберите преподавателя</option>';
+
+        if (filteredTeachers.length > 0) {
+            filteredTeachers.forEach(function(teacher) {
+                var option = document.createElement("option");
+                option.value = teacher.id;
+                option.text = teacher.fio;
+                teacherSelect.appendChild(option);
+            });
+        } else {
+            teacherSelect.innerHTML = '<option value="">Нет преподавателей на этой кафедре</option>';
+        }
+    }
+</script>

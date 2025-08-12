@@ -109,11 +109,41 @@ namespace WebTeacherClient.Controllers
         }
 
         [HttpGet]
-        public IActionResult OrderTeacherCreate(int? Note_id)
+        public IActionResult OrderTeacherCreateHiring(int? Note_id)
         {
             ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
             ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
             if (Note_id != null) 
+            {
+                var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
+                var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");
+                ViewBag.teacher = Teacher;
+                ViewBag.order = Order;
+            }
+
+            return View();
+        }
+        [HttpGet]
+        public IActionResult OrderTeacherCreateSwap(int? Note_id)
+        {
+            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            if (Note_id != null)
+            {
+                var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
+                var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");
+                ViewBag.teacher = Teacher;
+                ViewBag.order = Order;
+            }
+
+            return View();
+        }
+        [HttpGet]
+        public IActionResult OrderTeacherCreateFirring(int? Note_id)
+        {
+            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
+            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            if (Note_id != null)
             {
                 var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
                 var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");

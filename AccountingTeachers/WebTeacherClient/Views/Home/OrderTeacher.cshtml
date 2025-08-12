@@ -25,9 +25,14 @@
 
     <!-- Ссылка на создание нового приказа -->
     <div class="mb-3">
-        <a asp-action="OrderTeacherCreate" asp-route-Note_id="" class="btn btn-success" id="createLink">
+        <a href="#" class="btn btn-success" id="createLink" onclick="redirectToOrderPage()">
             <i class="fas fa-plus"></i> Создать новый приказ
         </a>
+        <select id="orderTypeSelect">
+            <option value="Hiring">Найм</option>
+            <option value="Swap">Перевод</option>
+            <option value="Firring">Увольнение</option>
+        </select>
     </div>
 
     <!-- Таблица приказов -->
@@ -112,5 +117,26 @@
                 $('#createLink').attr('href', $('#createLink').attr('href').split('=')[0] + '=' + noteId);
             });
         });
+
+           function redirectToOrderPage() {
+            const orderType = document.getElementById("orderTypeSelect").value;
+            let url = "";
+
+            switch (orderType) {
+                case "Hiring":
+                    url = "@Url.Action("OrderTeacherCreateHiring")";
+                    break;
+                case "Swap":
+                    url = "@Url.Action("OrderTeacherCreateSwap")";
+                    break;
+                case "Firring":
+                    url = "@Url.Action("OrderTeacherCreateFirring")";
+                    break;
+            }
+
+            if (url) {
+                window.location.href = url;
+            }
+        }
     </script>
 }
