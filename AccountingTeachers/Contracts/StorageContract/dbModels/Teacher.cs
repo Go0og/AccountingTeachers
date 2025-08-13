@@ -64,12 +64,12 @@ namespace Contracts.StorageContract.dbModels
             {
                 DepartmentId = model.DepartmentId;
             }
-            if (model.DateStart < DateTime.Parse("01.01.1900")) 
+            if (model.DateStart > DateTime.Parse("01.01.1900")) 
             {
                 DateStart = model.DateStart;
             }
             DateSwap = model.DateSwap;
-            if (model.DateEnd < DateTime.Parse("01.01.1900"))
+            if (model.DateEnd > DateTime.Parse("01.01.1900"))
             {
                 DateEnd = model.DateEnd;
             }

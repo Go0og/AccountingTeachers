@@ -4,6 +4,13 @@
 @{
     ViewData["Title"] = "OrderTeacherCreateHiring";
 }
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
 <div class="text-center">
     <h2 class="display-4">Форма создания приказа</h2>
 </div>
@@ -56,6 +63,23 @@
         <input type="submit" name="action" value="Сохранить" class="btn btn-primary" />
             
     </form>
+    @if (ViewBag.teacher != null)
+    {
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4>Текущий приказ</h4>
+                <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.teacher.DepartmentId, teacher = ViewBag.teacher.Id })" class="btn btn-success">Скачать</a>
+            </div>
+            <div class="card-body">
+                <p><strong>Кафедра:</strong> @ViewBag.department_name</p>
+                <p><strong>Преподаватель:</strong> @ViewBag.teacher.FIO</p>
+                <p><strong>Позиция преподавателя:</strong> @ViewBag.teacher.PositionTeacher</p>
+                <p><strong>Дата начала:</strong> @ViewBag.teacher.DateStart</p>
+                <p><strong>Дата конца:</strong> @ViewBag.teacher.DateEnd</p>
+                <p><strong>Оплата в час:</strong> @ViewBag.teacher.bet</p>
+            </div>
+        </div>
+    }
 
 </div>
 

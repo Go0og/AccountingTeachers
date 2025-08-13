@@ -7,6 +7,12 @@
 <div class="text-center">
     <h2 class="display-4">Форма создания приказа на увольнение</h2>
 </div>
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
 <div class="text-center">
     <form method="post">
         <div class="row">

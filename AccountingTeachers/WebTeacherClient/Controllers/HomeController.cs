@@ -1,10 +1,15 @@
 using Contracts.BindingContract;
 using Contracts.ViewContract;
 using DataModel.enums;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Diagnostics;
+using System.Reflection.Metadata;
 using WebTeacherClient.Models;
+using static System.Net.Mime.MediaTypeNames;
+using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace WebTeacherClient.Controllers
 {
@@ -112,13 +117,16 @@ namespace WebTeacherClient.Controllers
         public IActionResult OrderTeacherCreateHiring(int? Note_id)
         {
             ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
-            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
-            if (Note_id != null) 
+            var a = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            ViewBag.departments = a;
+            if (Note_id != null)
             {
                 var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
                 var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");
                 ViewBag.teacher = Teacher;
                 ViewBag.order = Order;
+                var tmp = a.FirstOrDefault(x => x.Id == Teacher.DepartmentId);
+                ViewBag.department_name = tmp.Name;
             }
 
             return View();
@@ -127,13 +135,16 @@ namespace WebTeacherClient.Controllers
         public IActionResult OrderTeacherCreateSwap(int? Note_id)
         {
             ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
-            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            var a = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            ViewBag.departments = a;
             if (Note_id != null)
             {
                 var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
                 var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");
                 ViewBag.teacher = Teacher;
                 ViewBag.order = Order;
+                var tmp = a.FirstOrDefault(x => x.Id == Teacher.DepartmentId);
+                ViewBag.department_name = tmp.Name;
             }
 
             return View();
@@ -142,171 +153,159 @@ namespace WebTeacherClient.Controllers
         public IActionResult OrderTeacherCreateFirring(int? Note_id)
         {
             ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>($"api/main/get_full_teacher");
-            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            var a = APIClient.GetRequest<List<DepartmentView>>($"api/main/get_full_department");
+            ViewBag.departments = a;
             if (Note_id != null)
             {
                 var Order = APIClient.GetRequest<OrderView>($"api/main/get_order?id={Note_id}");
                 var Teacher = APIClient.GetRequest<TeacherView>($"api/main/get_teacher?id={Order.TeacherID}");
                 ViewBag.teacher = Teacher;
                 ViewBag.order = Order;
+                var tmp = a.FirstOrDefault(x => x.Id == Teacher.DepartmentId);
+                ViewBag.department_name = tmp.Name;
             }
 
             return View();
         }
-
-        [HttpPost]
-        public IActionResult OrderTeacherCreate(
-       TypeOrders typeorders,
-       int department,
-       int newDepartment,
-       int teacher,
-       string datestart,
-       string dateend,
-       string dateswap,
-       int bet,
-       string positionteacher,
-       string action)
+        //              По хорошему переписать набор аргументов в заполненный словарь для адаптивности, но пока костыли держат потолок
+        private bool CheckCreateTeacher(int? department, int? teacher, string? positionteacher, TypeOrders typeorders,int? newDepartment,
+                                                    string? dateswap,string? datestart, string? dateend, int? bet, string? action)
         {
-            // Загружаем данные для ViewBag (на случай возврата с ошибкой)
-            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>("api/main/get_full_teacher");
-            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>("api/main/get_full_department");
-
-            // Валидация типа приказа
             if (typeorders == TypeOrders.No_type)
             {
                 ViewBag.ErrorMessage = "Не выбран тип приказа";
-                return View();
             }
 
-            // Валидация преподавателя
             if (teacher <= 0)
             {
                 ViewBag.ErrorMessage = "Не выбран преподаватель";
+
+            }
+            if (bet.HasValue && (bet <= 0 || bet > 7000))
+            {
+                ViewBag.ErrorMessage = "Некорректная ставка оплаты для перевода";
+                return false;
+            }
+            if (typeorders != TypeOrders.Firing && string.IsNullOrEmpty(positionteacher))
+            {
+                ViewBag.ErrorMessage = "Не указана позиция преподавателя";
+                return false;
+            }
+            if (  typeorders == TypeOrders.Hiring  &&(!DateTime.TryParse(datestart, out var hireStartDate) || !DateTime.TryParse(dateend, out var hireEndDate) ||
+                       hireStartDate < new DateTime(2000, 1, 1) || hireEndDate < new DateTime(2000, 1, 1) ||
+                       hireStartDate > new DateTime(3000, 1, 1) || hireEndDate > new DateTime(3000, 1, 1)))
+            {
+                ViewBag.ErrorMessage = "Некорректные даты для найма";
+                return false;
+            }
+            if (newDepartment.HasValue && newDepartment <= 0)
+            {
+                ViewBag.ErrorMessage = "Для перевода не выбрана новая кафедра";
+                return false;
+            }
+
+            if (typeorders == TypeOrders.Swap && (!DateTime.TryParse(dateswap, out var swapDate) || !DateTime.TryParse(dateend, out var swapEndDate) ||
+                        swapDate < new DateTime(2000, 1, 1) || swapEndDate < new DateTime(2000, 1, 1) ||
+                        swapDate > new DateTime(3000, 1, 1) || swapEndDate > new DateTime(3000, 1, 1)))
+            {
+                ViewBag.ErrorMessage = "Некорректные даты для перевода";
+                return false;
+            }
+            return true;
+        }
+        
+        [HttpPost]
+        public IActionResult OrderTeacherCreateHiring(int department, int teacher, string positionteacher, TypeOrders typeorders,
+                                                        string datestart,string dateend,int bet,string action)
+        {
+
+            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>("api/main/get_full_teacher");
+            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>("api/main/get_full_department");
+            if (!CheckCreateTeacher(department, teacher, positionteacher, TypeOrders.Hiring, null,null,datestart,dateend,bet,action))
+            {
+               
                 return View();
             }
 
-            // Валидация в зависимости от типа приказа
-            switch (typeorders)
+            APIClient.PostRequest("api/main/save_order", new OrderBindignModel
             {
-                case TypeOrders.Hiring:
-                    if (department <= 0)
-                    {
-                        ViewBag.ErrorMessage = "Для найма не выбрана кафедра";
-                        return View();
-                    }
-                    if (string.IsNullOrEmpty(positionteacher))
-                    {
-                        ViewBag.ErrorMessage = "Для найма не указана позиция преподавателя";
-                        return View();
-                    }
-                    if (!DateTime.TryParse(datestart, out var hireStartDate) || !DateTime.TryParse(dateend, out var hireEndDate) ||
-                        hireStartDate < new DateTime(2000, 1, 1) || hireEndDate < new DateTime(2000, 1, 1) ||
-                        hireStartDate > new DateTime(3000, 1, 1) || hireEndDate > new DateTime(3000, 1, 1))
-                    {
-                        ViewBag.ErrorMessage = "Некорректные даты для найма";
-                        return View();
-                    }
-                    if (bet <= 0 || bet > 7000)
-                    {
-                        ViewBag.ErrorMessage = "Некорректная ставка оплаты для найма";
-                        return View();
-                    }
-                    break;
+                TeacherID = teacher,
+                DateOrder = DateTime.Now,
+                TypeOrder = TypeOrders.Hiring,
+            });
+            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+            {
+                Id = teacher,
+                DepartmentId = department,
+                PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
+                DateStart = DateTime.Parse(datestart),
+                DateEnd = DateTime.Parse(dateend),
+                bet = bet
+            });
+            return View();
+        }
+        [HttpPost]
+        public IActionResult OrderTeacherCreateSwap(int department,int NewDepartment, int teacher, string positionteacher, TypeOrders typeorders,
+                                                       string dateswap, string dateend, int bet, string action)
+        {
 
-                case TypeOrders.Swap:
-                    if (newDepartment <= 0)
-                    {
-                        ViewBag.ErrorMessage = "Для перевода не выбрана новая кафедра";
-                        return View();
-                    }
-                    if (string.IsNullOrEmpty(positionteacher))
-                    {
-                        ViewBag.ErrorMessage = "Для перевода не указана позиция преподавателя";
-                        return View();
-                    }
-                    if (!DateTime.TryParse(dateswap, out var swapDate) || !DateTime.TryParse(dateend, out var swapEndDate) ||
-                        swapDate < new DateTime(2000, 1, 1) || swapEndDate < new DateTime(2000, 1, 1) ||
-                        swapDate > new DateTime(3000, 1, 1) || swapEndDate > new DateTime(3000, 1, 1))
-                    {
-                        ViewBag.ErrorMessage = "Некорректные даты для перевода";
-                        return View();
-                    }
-                    if (bet <= 0 || bet > 7000)
-                    {
-                        ViewBag.ErrorMessage = "Некорректная ставка оплаты для перевода";
-                        return View();
-                    }
-                    break;
-
-                case TypeOrders.Firing:
-                    // Для увольнения требуется только преподаватель
-                    break;
+            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>("api/main/get_full_teacher");
+            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>("api/main/get_full_department");
+            if (!CheckCreateTeacher(department, teacher, positionteacher, TypeOrders.Swap,NewDepartment, dateswap, null, dateend, bet, action))
+            {
+                return View();
             }
 
-            // Если нажата кнопка "Сохранить"
-            if (action == "Сохранить")
+            APIClient.PostRequest("api/main/save_order", new OrderBindignModel
             {
-                try
-                {
-                    // Создаем приказ
-                    APIClient.PostRequest("api/main/save_order", new OrderBindignModel
-                    {
-                        TeacherID = teacher,
-                        DateOrder = DateTime.Now,
-                        TypeOrder = typeorders,
-                    });
+                TeacherID = teacher,
+                DateOrder = DateTime.Now,
+                TypeOrder = TypeOrders.Swap,
+            });
+            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+            {
+                Id = teacher,
+                DepartmentId = department,
+                PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
+                DateSwap = DateTime.Parse(dateswap),
+                DateEnd = DateTime.Parse(dateend),
+                bet = bet
+            });
+            return View();
+        }
+        [HttpPost]
+        public IActionResult OrderTeacherCreateFirring(int department, int teacher, string positionteacher, TypeOrders typeorders,
+                                                       string datestart, string dateend, int bet, string action)
+        {
 
-                    // Обновляем данные преподавателя в зависимости от типа приказа
-                    switch (typeorders)
-                    {
-                        case TypeOrders.Hiring:
-                            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
-                            {
-                                Id = teacher,
-                                DepartmentId = department,
-                                PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
-                                DateStart = DateTime.Parse(datestart),
-                                DateEnd = DateTime.Parse(dateend),
-                                bet = bet
-                            });
-                            break;
-
-                        case TypeOrders.Swap:
-                            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
-                            {
-                                Id = teacher,
-                                DepartmentId = newDepartment,
-                                PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
-                                DateSwap = DateTime.Parse(dateswap),
-                                DateEnd = DateTime.Parse(dateend),
-                                bet = bet
-                            });
-                            break;
-
-                        case TypeOrders.Firing:
-                            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
-                            {
-                                Id = teacher,
-                                DateEnd = DateTime.Now
-                            });
-                            break;
-                    }
-
-                    // Перенаправляем на страницу списка приказов
-                    return RedirectToAction("OrderTeacher");
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.ErrorMessage = $"Ошибка при сохранении: {ex.Message}";
-                    return View();
-                }
+            ViewBag.teachers = APIClient.GetRequest<List<TeacherView>>("api/main/get_full_teacher");
+            ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>("api/main/get_full_department");
+            if (!CheckCreateTeacher(department, teacher, null, TypeOrders.Firing, null, null, null, dateend, null, action))
+            {
+                return View();
             }
 
-            // Если действие не распознано, возвращаем на форму
+            APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+            {
+                TeacherID = teacher,
+                DateOrder = DateTime.Now,
+                TypeOrder = TypeOrders.Firing,
+            });
+            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+            {
+                Id = teacher,
+            });
             return View();
         }
 
 
+
+        [HttpGet]
+        public IActionResult generateWordReport(int Id, int teacher)
+        {
+            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_hiring?id={Id},id_teacher={teacher}");
+            return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
+        }
 
     }
 }

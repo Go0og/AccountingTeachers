@@ -1,3 +1,5 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+
 namespace WebTeacherClient
 {
     public class Program
@@ -19,6 +21,7 @@ namespace WebTeacherClient
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -29,6 +32,8 @@ namespace WebTeacherClient
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Enter}/{id?}");
+
+
 
             app.Run();
         }
