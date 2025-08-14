@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Interactors.OfficePackage.AbstractAccounting;
 using Interactors.OfficePackage.AbstractOrder;
 using Interactors.OfficePackage.HelperEnums;
 using Interactors.OfficePackage.Helpermodels;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Interactors.OfficePackage.Implements
 {
-    public class SaveToWordOrderFiring : AbstractOrderFiringToWord
+    public class SaveToWordAccounting : AbstractAccountingToWord
     {
         private WordprocessingDocument? _wordDocument;
         private Body? _docBody;
@@ -48,7 +49,7 @@ namespace Interactors.OfficePackage.Implements
             _docBody.AppendChild(docParagraph);
         }
 
-        protected override void CreateWord(WordOrder info)
+        protected override void CreateWord(WordAccounting    info)
         {
             _wordDocument = WordprocessingDocument.Create(_mem, WordprocessingDocumentType.Document);
             MainDocumentPart mainPart = _wordDocument.AddMainDocumentPart();
@@ -56,7 +57,7 @@ namespace Interactors.OfficePackage.Implements
             _docBody = mainPart.Document.AppendChild(new Body());
         }
 
-        protected override byte[]? SaveWord(WordOrder info)
+        protected override byte[]? SaveWord(WordAccounting info)
         {
             if (_docBody == null || _wordDocument == null)
             {
@@ -111,6 +112,82 @@ namespace Interactors.OfficePackage.Implements
                 WordJustificationType.Right => JustificationValues.Right,
                 _ => JustificationValues.Left,
             };
+        }
+
+
+        protected override void CreateTable(WordAccounting info)
+        {
+            if (_docBody == null)
+            {
+                return;
+            }
+
+            var table = new Table();
+
+
+            var tableProperties = new TableProperties(
+                new TableWidth { Width = "5000", Type = TableWidthUnitValues.Pct },
+                new TableBorders(
+                    new TopBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new BottomBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new LeftBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new RightBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new InsideHorizontalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 },
+                    new InsideVerticalBorder { Val = new EnumValue<BorderValues>(BorderValues.Single), Size = 4 }
+                )
+            );
+            table.AppendChild(tableProperties);
+
+
+            var tableGrid = new TableGrid();
+            tableGrid.AppendChild(new GridColumn { Width = "1000" });
+            tableGrid.AppendChild(new GridColumn { Width = "1000" });
+            tableGrid.AppendChild(new GridColumn { Width = "1000" });
+            tableGrid.AppendChild(new GridColumn { Width = "1000" });
+            tableGrid.AppendChild(new GridColumn { Width = "1000" });
+            table.AppendChild(tableGrid);
+
+
+            var headerRow = new TableRow();
+            headerRow.AppendChild(CreateTableCell("№", true));
+            headerRow.AppendChild(CreateTableCell("ФИО", true));
+            headerRow.AppendChild(CreateTableCell("Ставка", true));
+            headerRow.AppendChild(CreateTableCell("Должность", true));
+            headerRow.AppendChild(CreateTableCell("Ученая степень, звание", true));
+            table.AppendChild(headerRow);
+
+         //логика для данных с таблички
+            for( int i = 0; i < info.accounting.Count; ++i)
+            {
+                var row = new TableRow();
+                row.AppendChild(CreateTableCell($"{i}"));
+                row.AppendChild(CreateTableCell(info.accounting[i].FIO));
+                row.AppendChild(CreateTableCell(info.accounting[i].Bet.ToString()));
+                row.AppendChild(CreateTableCell(info.accounting[i].Position));
+                row.AppendChild(CreateTableCell(info.accounting[i].Title));
+            }
+
+            _docBody.AppendChild(table);
+        }
+
+        private TableCell CreateTableCell(string text, bool isHeader = false)
+        {
+            var cell = new TableCell();
+            var paragraph = new Paragraph();
+            var run = new Run();
+            var runProperties = new RunProperties();
+
+            if (isHeader)
+            {
+                runProperties.AppendChild(new Bold());
+            }
+
+            run.AppendChild(runProperties);
+            run.AppendChild(new Text(text));
+            paragraph.AppendChild(run);
+            cell.AppendChild(paragraph);
+
+            return cell;
         }
     }
 }

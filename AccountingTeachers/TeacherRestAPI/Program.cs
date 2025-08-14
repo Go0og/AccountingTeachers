@@ -4,6 +4,8 @@ using Contracts.StorageContract;
 using DataBaseImplements.Implements;
 using Interactors;
 using Interactors.OfficePackage;
+using Interactors.OfficePackage.AbstractAccounting;
+using Interactors.OfficePackage.AbstractOrder;
 using Interactors.OfficePackage.Implements;
 using Presenters;
 
@@ -44,6 +46,7 @@ namespace TeacherRestAPI
             builder.Services.AddSingleton<AbstractOrderHiringToWord, SaveToWordOrderHiring>();
             builder.Services.AddSingleton<AbstractOrderSwapToWord, SaveToWordOrderSwap>();
             builder.Services.AddSingleton<AbstractOrderFiringToWord, SaveToWordOrderFiring>();
+            builder.Services.AddSingleton<AbstractAccountingToWord, SaveToWordAccounting>();
 
 
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interactors.OfficePackage
+namespace Interactors.OfficePackage.AbstractOrder
 {
     public abstract class AbstractOrderHiringToWord
     {

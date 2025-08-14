@@ -5,6 +5,8 @@ using Contracts.StorageContract.dbModels;
 using Contracts.ViewContract;
 using DataModel.enums;
 using Interactors.OfficePackage;
+using Interactors.OfficePackage.AbstractAccounting;
+using Interactors.OfficePackage.AbstractOrder;
 using Interactors.OfficePackage.Helpermodels;
 using System;
 using System.Collections.Generic;
@@ -24,9 +26,12 @@ namespace Interactors
         private readonly AbstractOrderSwapToWord _saveSwap;
         private readonly AbstractOrderFiringToWord _saveFiring;
 
+        private readonly AbstractAccountingToWord _saveAccounting;
+
 
         public ReportLogic(IDepartmentStorage departmentStorage, ITeacherStorage teacherStorage, IOrderStorage orderStorage,
-            AbstractOrderHiringToWord Save, AbstractOrderSwapToWord saveSwap, AbstractOrderFiringToWord saveFiring)
+            AbstractOrderHiringToWord Save, AbstractOrderSwapToWord saveSwap, AbstractOrderFiringToWord saveFiring, 
+            AbstractAccountingToWord abstractAccountingToWord)
         {
             _departmentStorage = departmentStorage;
             _teacherStorage = teacherStorage;
@@ -34,11 +39,17 @@ namespace Interactors
             _saveHiring = Save;
             _saveSwap = saveSwap;
             _saveFiring = saveFiring;
+            _saveAccounting = abstractAccountingToWord;
         }
 
         public byte[]? SaveAccountingToWordFile(List<DepartmentTeacherView> models)
         {
-            throw new NotImplementedException();
+            var document = _saveAccounting.CreateDoc(new WordAccounting
+            {
+                Title = "Accounting",
+                accounting = models
+            });
+            return document;
         }
 
         public byte[]? SaveOrderToWordFile(OrderView order, TypeOrders order_type)

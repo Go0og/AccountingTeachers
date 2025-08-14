@@ -1,6 +1,7 @@
 using Contracts.BindingContract;
 using Contracts.ViewContract;
 using DataModel.enums;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
@@ -304,6 +305,13 @@ namespace WebTeacherClient.Controllers
         public IActionResult generateWordReport(int Id, TypeOrders order)
         {
             var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_hiring?Id={Id}&order_type={order.ToString()}");
+            return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
+        }
+
+        [HttpGet]
+        public IActionResult generateWordReportAccounting([FromQuery] List<DepartmentTeacherView> departmentTeachers)
+        {
+            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_accounting?list={departmentTeachers}");
             return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
         }
 

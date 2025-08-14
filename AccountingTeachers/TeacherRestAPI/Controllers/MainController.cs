@@ -133,5 +133,10 @@ namespace TeacherRestAPI.Controllers
             return _reportLogic.SaveOrderToWordFile(d, Enum.Parse<TypeOrders>(order_type));
 
         }
+        [HttpGet]
+        public byte[] general_accounting(List<DepartmentTeacherView> list)
+        {
+            return _reportLogic.SaveAccountingToWordFile(list);
+        }
     }
 }
