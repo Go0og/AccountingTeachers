@@ -3,6 +3,8 @@ using Contracts.PresenterContract;
 using Contracts.StorageContract;
 using DataBaseImplements.Implements;
 using Interactors;
+using Interactors.OfficePackage;
+using Interactors.OfficePackage.Implements;
 using Presenters;
 
 namespace TeacherRestAPI
@@ -26,6 +28,7 @@ namespace TeacherRestAPI
             builder.Services.AddTransient<IUserLogic, UserLogic>();
             builder.Services.AddTransient<IDepartmentLogic, DepartmensLogic>();
             builder.Services.AddTransient<IOrdersLogic, OrderLogic>();
+            builder.Services.AddTransient<IReportLogic, ReportLogic>();
 
             // -----PRESENTERS----------
 
@@ -34,6 +37,15 @@ namespace TeacherRestAPI
             builder.Services.AddTransient<IDepartmentPresenter, DepartmentPresenter>();
             builder.Services.AddTransient<IDepartmensTeachersPresenter, DepartmentTeacherPresenter>();
             builder.Services.AddTransient<IOrdersPresenter, OrderPresenter>();
+
+
+            // -----Abstract
+
+            builder.Services.AddSingleton<AbstractOrderHiringToWord, SaveToWordOrderHiring>();
+            builder.Services.AddSingleton<AbstractOrderSwapToWord, SaveToWordOrderSwap>();
+            builder.Services.AddSingleton<AbstractOrderFiringToWord, SaveToWordOrderFiring>();
+
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

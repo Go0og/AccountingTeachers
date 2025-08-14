@@ -44,8 +44,16 @@
 
     
     @* @if (ViewBag.teacher != null && ViewBag.order != null) *@
-    @if(true)
+    @if (ViewBag.teacher != null)
     {
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>Текущий приказ</h4>
+            <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.order.Id, order = TypeOrders.Firing })" class="btn btn-success">Скачать</a>
+        </div>
+        <div class="card-body">
+            <p><strong>Кафедра:</strong> @ViewBag.department_name</p>
+            <p><strong>Преподаватель:</strong> @ViewBag.teacher.FIO</p>
+        </div>
         <div class="card mt-4">
             <div class="card-header">
                 <h4>Увсо хорошо,считай,что он уже уволен</h4>
@@ -53,7 +61,7 @@
             
         </div>
         <h5>
-            <img src="~/img/Firring.jpg" width="840" height="440"/>
+            <img src="~/img/Firring.jpg" width="640" height="440"/>
         </h5>
     }
 </div>

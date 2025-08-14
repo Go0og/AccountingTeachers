@@ -68,7 +68,7 @@
         <div class="card mt-4">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>Текущий приказ</h4>
-                <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.teacher.DepartmentId, teacher = ViewBag.teacher.Id })" class="btn btn-success">Скачать</a>
+                <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.order.Id , order = TypeOrders.Hiring  })" class="btn btn-success">Скачать</a>
             </div>
             <div class="card-body">
                 <p><strong>Кафедра:</strong> @ViewBag.department_name</p>

@@ -4,6 +4,7 @@ using Contracts.PresenterContract;
 using Contracts.SearchContract;
 using Contracts.StorageContract;
 using Contracts.ViewContract;
+using DataModel.enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TeacherRestAPI.Controllers
@@ -21,17 +22,21 @@ namespace TeacherRestAPI.Controllers
         private readonly IUserLogic userLogic;
         private readonly IteacherLogic teacherLogic;
         private readonly IDepartmentLogic departmentLogic;
-        private IOrdersLogic ordersLogic;
+        private readonly IOrdersLogic ordersLogic;
 
         private readonly IUserStorage userStorage;
         private readonly ITeacherStorage teacherStorage;
         private readonly IDepartmentStorage departmentStorage;
         private readonly IOrderStorage orderStorage;
 
+        private readonly IReportLogic _reportLogic;
+
+
         public MainController(IUserPresenter UserPresenter, ITeacherPresenter TeacherPresenter, IDepartmentPresenter DepartmentPresenter,
                                 IDepartmensTeachersPresenter DepartmentTeacherPresenter, IOrdersPresenter OrdersPresenter,
                                 IUserLogic UserLogic, IteacherLogic TeacherLogic, IDepartmentLogic DepartmentLogic, IOrdersLogic OrdersLogic,
-                                IUserStorage UserStorage, ITeacherStorage TeacherStorage, IDepartmentStorage DepartmentStorage, IOrderStorage OrderStorage)
+                                IUserStorage UserStorage, ITeacherStorage TeacherStorage, IDepartmentStorage DepartmentStorage, IOrderStorage OrderStorage,
+                                IReportLogic reportLogic)
         {
             userPresenter = UserPresenter;
             teacherPresenter = TeacherPresenter;
@@ -48,6 +53,8 @@ namespace TeacherRestAPI.Controllers
             teacherStorage = TeacherStorage;
             departmentStorage = DepartmentStorage;
             orderStorage = OrderStorage;
+
+            _reportLogic = reportLogic;
         }
 
         [HttpPost]
@@ -117,6 +124,14 @@ namespace TeacherRestAPI.Controllers
         public TeacherView? get_teacher(int id)
         {
             return teacherPresenter.MakeTeacher(new TeacherSearch { Id = id });
+        }
+
+        [HttpGet]
+        public byte[]? general_hiring(int Id, string order_type)
+        {
+            var d = ordersPresenter.MakeOrder(new OrderSearch { Id = Id });
+            return _reportLogic.SaveOrderToWordFile(d, Enum.Parse<TypeOrders>(order_type));
+
         }
     }
 }

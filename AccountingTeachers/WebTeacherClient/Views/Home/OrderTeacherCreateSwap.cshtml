@@ -80,8 +80,9 @@
     @if (ViewBag.teacher != null)
     {
         <div class="card mt-4">
-            <div class="card-header">
+            <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>Текущий приказ</h4>
+                <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.order.Id, order = TypeOrders.Swap })" class="btn btn-success">Скачать</a>
             </div>
             <div class="card-body">
                 <p><strong>Кафедра:</strong> @ViewBag.department_name</p>

@@ -301,9 +301,9 @@ namespace WebTeacherClient.Controllers
 
 
         [HttpGet]
-        public IActionResult generateWordReport(int Id, int teacher)
+        public IActionResult generateWordReport(int Id, TypeOrders order)
         {
-            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_hiring?id={Id},id_teacher={teacher}");
+            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_hiring?Id={Id}&order_type={order.ToString()}");
             return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
         }
 
