@@ -5,9 +5,11 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection.Metadata;
+using System.Text;
 using WebTeacherClient.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
@@ -307,13 +309,50 @@ namespace WebTeacherClient.Controllers
             var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_hiring?Id={Id}&order_type={order.ToString()}");
             return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
         }
-
+        
         [HttpGet]
-        public IActionResult generateWordReportAccounting([FromQuery] List<DepartmentTeacherView> departmentTeachers)
+        public IActionResult generateWordReportAccounting(string data)
         {
-            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_accounting?list={departmentTeachers}");
+            // Декодируем данные из base64
+            var decodedData = Encoding.UTF8.GetString(Convert.FromBase64String(data));
+
+            // Десериализуем в список объектов
+            List<DepartmentTeacherView> teachers = JsonConvert.DeserializeObject<List<DepartmentTeacherView>>(decodedData);
+            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_accounting?list={teachers}"); 
             return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
         }
+        /*
+        [HttpGet]
+        public IActionResult generateWordReportAccounting(string data)
+        {
+            try
+            {
+                // Декодируем данные из base64
+                var decodedData = Encoding.UTF8.GetString(Convert.FromBase64String(data));
 
+                // Десериализуем в список объектов
+                var teachers = JsonConvert.DeserializeObject<List<DepartmentTeacherView>>(decodedData);
+
+                // Проверяем данные
+                if (teachers == null || !teachers.Any())
+                    return BadRequest("Нет данных для отчета");
+
+                // Правильный вызов API с сериализованными данными
+                var serializedTeachers = Uri.EscapeDataString(JsonConvert.SerializeObject(teachers));
+                var fileBytes = APIClient.GetRequest<byte[]>($"api/main/general_accounting?teachers={serializedTeachers}");
+
+                return File(fileBytes,
+                           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                           "Учетность_преподавателей.docx");
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                Console.WriteLine($"Ошибка при генерации отчета: {ex}");
+                return StatusCode(500, $"Ошибка генерации: {ex.Message}");
+            }
+        
+        }
+        */
     }
 }

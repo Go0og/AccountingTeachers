@@ -153,28 +153,39 @@
             });
 
             // Обработчик кнопки скачивания
-            $('#downloadReport').on('click', function() {
-                try {
-                    // Получаем текущие отфильтрованные данные из DataTable
-                    var filteredData = table.rows({ search: 'applied' }).data().toArray();
-                    console.log("Filtered data to send:", filteredData);
+                   $('#downloadReport').on('click', function() {
+            // Получаем ВСЕ данные таблицы (с учетом фильтров)
+            var allData = table.rows({ search: 'applied' }).data().toArray();
 
-                    // Создаем URL с параметрами
-                    var url = '@Url.Action("generateWordReportAccounting", "Home")';
+            // Проверяем есть ли данные
+            if (allData.length === 0) {
+                alert('Нет данных для экспорта!');
+                return;
+            }
 
-                    // Кодируем данные для передачи в URL
-                    var params = $.param({ departmentTeachers: filteredData }, true);
-                    url += '?' + params;
+            // Показываем загрузку
+            $(this).html('<span class="spinner-border spinner-border-sm"></span> Генерация...');
 
-                    console.log("Generated URL:", url);
+            // Кодируем данные в base64 для передачи в URL
+            var dataStr = btoa(unescape(encodeURIComponent(JSON.stringify(allData))));
 
-                    // Открываем URL в новом окне для скачивания
-                    window.open(url, '_blank');
-                } catch (e) {
-                    console.error("Error in download handler:", e);
-                    alert("Произошла ошибка при формировании отчета: " + e.message);
-                }
-            });
+            // Формируем URL с параметром
+            var url = '@Url.Action("generateWordReportAccounting", "Home")?data=' + encodeURIComponent(dataStr);
+
+            // Создаем временную ссылку для скачивания
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = 'Отчет_учетность.docx';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Восстанавливаем кнопку
+            setTimeout(() => {
+                $('#downloadReport').html('Скачать');
+            }, 1000);
+        });
         });
     </script>
 }
