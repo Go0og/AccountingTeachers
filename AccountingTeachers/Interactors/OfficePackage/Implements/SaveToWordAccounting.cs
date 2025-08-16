@@ -160,11 +160,12 @@ namespace Interactors.OfficePackage.Implements
             for( int i = 0; i < info.accounting.Count; ++i)
             {
                 var row = new TableRow();
-                row.AppendChild(CreateTableCell($"{i}"));
-                row.AppendChild(CreateTableCell(info.accounting[i].FIO));
+                row.AppendChild(CreateTableCell($"{++i}"));
+                row.AppendChild(CreateTableCell(info.accounting[--i].FIO));
                 row.AppendChild(CreateTableCell(info.accounting[i].Bet.ToString()));
                 row.AppendChild(CreateTableCell(info.accounting[i].Position));
                 row.AppendChild(CreateTableCell(info.accounting[i].Title));
+                table.AppendChild(row);
             }
 
             _docBody.AppendChild(table);
