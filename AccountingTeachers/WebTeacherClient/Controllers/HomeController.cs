@@ -318,7 +318,8 @@ namespace WebTeacherClient.Controllers
 
             // Десериализуем в список объектов
             List<DepartmentTeacherView> teachers = JsonConvert.DeserializeObject<List<DepartmentTeacherView>>(decodedData);
-            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_accounting?list={teachers}"); 
+            string teacher_ser = JsonConvert.SerializeObject(teachers);
+            var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_accounting?list={teacher_ser}"); 
             return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
         }
         /*

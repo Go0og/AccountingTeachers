@@ -6,6 +6,7 @@ using Contracts.StorageContract;
 using Contracts.ViewContract;
 using DataModel.enums;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace TeacherRestAPI.Controllers
 {
@@ -134,9 +135,10 @@ namespace TeacherRestAPI.Controllers
 
         }
         [HttpGet]
-        public byte[] general_accounting(List<DepartmentTeacherView> list)
+        public byte[] general_accounting(string list)
         {
-            return _reportLogic.SaveAccountingToWordFile(list);
+            
+            return _reportLogic.SaveAccountingToWordFile(JsonConvert.DeserializeObject<List<DepartmentTeacherView>>(list));
         }
     }
 }
