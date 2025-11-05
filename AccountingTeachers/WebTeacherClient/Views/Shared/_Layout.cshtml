@@ -1,61 +1,292 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebTeacherClient</title>
+    <title>@ViewData["Title"] - Система учета преподавателей</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebTeacherClient.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @RenderSection("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    @if (APIClient._user == null)
-                    {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Enter">Авторизуйтесь</a>
-                            </li>
-                        </ul>
-                    }
-                    else
-                    {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Accounting">Учетность</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OrderTeacher">Приказы</a>
-                            </li>
-                        </ul>
+    @if (APIClient._user == null)
+    {
+        <!-- Для неавторизованных пользователей - обычный шаблон -->
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand text-primary fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-university me-2"></i>Учет преподавателей
+                    </a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Enter">
+                                <i class="fas fa-sign-in-alt me-1"></i>Вход
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
+        <!-- Для авторизованных пользователей - боковая навигация -->
+        <div class="wrapper">
+            <!-- Боковая панель -->
+            <nav id="sidebar" class="sidebar">
+                <div class="sidebar-header">
+                    <h3 class="text-white">
+                        <i class="fas fa-university me-2"></i>Учет преподавателей
+                    </h3>
+                    <strong><i class="fas fa-university"></i></strong>
+                </div>
 
-                    }
+                <ul class="list-unstyled components">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home me-2"></i>Главная
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Accounting">
+                            <i class="fas fa-chart-line me-2"></i>Учетность
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="OrderTeacher">
+                            <i class="fas fa-file-contract me-2"></i>Приказы
+                        </a>
+                    </li>
+                </ul>
 
+                <div class="sidebar-footer mt-auto p-3">
+                    <div class="user-info text-white small">
+                        <i class="fas fa-user-circle me-2"></i>
+                        @if (APIClient._user != null)
+                        {
+                            <span>@APIClient._user</span>
+                        }
+                    </div>
+                    <form method="post" asp-controller="Home" asp-action="Logout" class="w-100">
+                        <button type="submit" class="btn btn-outline-light btn-sm w-100 mt-2">
+                            <i class="fas fa-sign-out-alt me-1"></i>Выйти
+                        </button>
+                    </form>
+                </div>
+            </nav>
+
+            <!-- Основной контент -->
+            <div id="content" class="content">
+                <!-- Кнопка для мобильных устройств -->
+                <nav class="navbar navbar-light bg-light d-lg-none">
+                    <div class="container-fluid">
+                        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <span class="navbar-brand mb-0 h6 text-primary">
+                            <i class="fas fa-university me-2"></i>@ViewData["Title"]
+                        </span>
+                    </div>
+                </nav>
+
+                <!-- Основной контент страницы -->
+                <main class="main-content p-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    }
+
+    <footer class="footer bg-dark text-white py-3 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    &copy; 2025 - Система учета преподавателей
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-white-50 text-decoration-none">
+                        <i class="fas fa-shield-alt me-1"></i>Политика конфиденциальности
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - WebTeacherClient - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Переключение боковой панели на мобильных устройствах
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+
+            // Закрытие боковой панели при клике на ссылку на мобильных
+            $('.sidebar .nav-link').on('click', function () {
+                if ($(window).width() < 992) {
+                    $('#sidebar').removeClass('active');
+                    $('#content').removeClass('active');
+                }
+            });
+
+            // Активный пункт меню
+            var currentUrl = window.location.pathname;
+            $('.sidebar .nav-link').each(function () {
+                var linkUrl = $(this).attr('href');
+                if (currentUrl === linkUrl) {
+                    $(this).addClass('active');
+                    $(this).closest('li').addClass('active-item');
+                }
+            });
+        });
+    </script>
+
+    <style>
+        /* Основные стили для боковой навигации */
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3a6d 100%);
+            color: #fff;
+            transition: all 0.3s;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+            #sidebar.active {
+                margin-left: -250px;
+            }
+
+            #sidebar .sidebar-header {
+                padding: 20px;
+                background: rgba(0,0,0,0.1);
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+                #sidebar .sidebar-header h3 {
+                    font-size: 1.2rem;
+                    margin: 0;
+                    font-weight: 600;
+                }
+
+            #sidebar ul.components {
+                padding: 20px 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            #sidebar ul li a {
+                padding: 12px 20px;
+                font-size: 1em;
+                display: block;
+                color: rgba(255,255,255,0.8);
+                text-decoration: none;
+                transition: all 0.3s;
+                border-left: 3px solid transparent;
+            }
+
+                #sidebar ul li a:hover {
+                    color: #fff;
+                    background: rgba(255,255,255,0.1);
+                    border-left: 3px solid #d4af37;
+                }
+
+                #sidebar ul li a.active {
+                    color: #fff;
+                    background: rgba(255,255,255,0.15);
+                    border-left: 3px solid #d4af37;
+                    font-weight: 500;
+                }
+
+                #sidebar ul li a i {
+                    margin-right: 10px;
+                    width: 20px;
+                    text-align: center;
+                }
+
+        .sidebar-footer {
+            background: rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-info {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Основной контент */
+        #content {
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+            #content.active {
+                width: 100%;
+            }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Мобильная навигация */
+        .navbar-light {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        /* Футер */
+        .footer {
+            margin-top: auto;
+        }
+
+        /* Адаптивность */
+        @@media (max-width: 991.98px) {
+            #sidebar {
+                margin-left: -250px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 1000;
+            }
+
+                #sidebar.active {
+                    margin-left: 0;
+                }
+
+            #content {
+                width: 100%;
+            }
+
+                #content.active {
+                    margin-left: 250px;
+                }
+        }
+
+        /* Стили для неавторизованных пользователей */
+        .navbar-brand {
+            font-weight: 600;
+        }
+    </style>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

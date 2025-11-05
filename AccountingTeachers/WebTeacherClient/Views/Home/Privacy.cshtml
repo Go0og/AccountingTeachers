@@ -1,6 +1,167 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿﻿@{
+ViewData["Title"] = "Политика конфиденциальности";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container-fluid py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Заголовок -->
+            <div class="text-center mb-5">
+                <h1 class="display-4 text-primary">
+                    <i class="fas fa-shield-alt me-3"></i>@ViewData["Title"]
+                </h1>
+                <p class="lead text-muted">Политика обработки и защиты персональных данных</p>
+            </div>
+
+            <!-- Основной контент -->
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Общие положения</h5>
+                </div>
+                <div class="card-body">
+                    <div class="privacy-content">
+                        <div class="section mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="fas fa-database me-2"></i>Сбор и использование информации
+                            </h5>
+                            <p>Система учета преподавателей собирает и обрабатывает следующие типы персональных данных:</p>
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-user text-primary me-3"></i>
+                                    <span>ФИО преподавателей и сотрудников</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-university text-primary me-3"></i>
+                                    <span>Информация о кафедрах и должностях</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-money-bill-wave text-primary me-3"></i>
+                                    <span>Ставки оплаты труда</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-calendar-alt text-primary me-3"></i>
+                                    <span>Даты приказов и кадровых изменений</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="section mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="fas fa-lock me-2"></i>Защита данных
+                            </h5>
+                            <p>Мы принимаем все необходимые меры для защиты ваших персональных данных:</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="alert alert-success">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <strong>Шифрование</strong> - все данные передаются по защищенному соединению
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-user-shield me-2"></i>
+                                        <strong>Контроль доступа</strong> - строгая система авторизации пользователей
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="fas fa-share-alt me-2"></i>Передача данных третьим лицам
+                            </h5>
+                            <p>Мы не передаем персональные данные третьим лицам, за исключением случаев, предусмотренных законодательством Российской Федерации.</p>
+                        </div>
+
+                        <div class="section mb-4">
+                            <h5 class="text-primary mb-3">
+                                <i class="fas fa-clock me-2"></i>Сроки хранения данных
+                            </h5>
+                            <p>Персональные данные хранятся в течение срока, необходимого для достижения целей их обработки, или в соответствии с требованиями законодательства.</p>
+                        </div>
+
+                        <div class="section">
+                            <h5 class="text-primary mb-3">
+                                <i class="fas fa-phone me-2"></i>Контакты
+                            </h5>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="mb-2">
+                                                <i class="fas fa-envelope text-primary me-2"></i>
+                                                <strong>Email:</strong> privacy@university.edu
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="mb-2">
+                                                <i class="fas fa-phone text-primary me-2"></i>
+                                                <strong>Телефон:</strong> +7 (XXX) XXX-XX-XX
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительная информация -->
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Правовая основа</h5>
+                </div>
+                <div class="card-body">
+                    <p>Настоящая Политика конфиденциальности разработана в соответствии с:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-gavel text-primary me-2"></i>Федеральным законом № 152-ФЗ "О персональных данных"</li>
+                        <li><i class="fas fa-gavel text-primary me-2"></i>Внутренними регламентами образовательного учреждения</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Кнопка возврата -->
+            <div class="text-center mt-5">
+                <a href="/Home/Index" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home me-2"></i>Вернуться на главную
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .card {
+            border-radius: 15px;
+        }
+
+        .list-group-item {
+            border: none;
+            padding: 1rem 1.25rem;
+        }
+
+        .section {
+            padding: 1.5rem;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert {
+            border: none;
+            border-radius: 10px;
+        }
+
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .privacy-content {
+            line-height: 1.8;
+        }
+    </style>
+}

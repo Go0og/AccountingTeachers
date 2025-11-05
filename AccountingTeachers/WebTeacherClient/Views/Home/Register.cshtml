@@ -1,33 +1,105 @@
-﻿@{
-	ViewData["Title"] = "Register";
+﻿﻿@{
+ViewData["Title"] = "Register";
 }
-<div class="text-center">
-	<h2 class="display-4">Регистрация</h2>
+
+<div class="container-fluid vh-100" style="background: linear-gradient(135deg, #2c5aa0 0%, #1e3a6d 100%);">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-md-5 col-sm-10">
+            <!-- Карточка регистрации -->
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <i class="fas fa-user-plus fa-3x mb-3"></i>
+                    <h3 class="mb-0">Регистрация</h3>
+                    <p class="mb-0 opacity-75">Создание нового аккаунта</p>
+                </div>
+
+                <div class="card-body p-4">
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            @ViewBag.ErrorMessage
+                        </div>
+                    }
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Логин</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <input type="text" name="Login" class="form-control" placeholder="Введите логин">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-muted">ФИО</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-id-card text-primary"></i>
+                                </span>
+                                <input type="text" name="fio" class="form-control" placeholder="Введите ваше ФИО">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-muted">Пароль</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-lock text-primary"></i>
+                                </span>
+                                <input type="password" name="password" class="form-control" placeholder="Введите пароль">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 py-2 mb-3">
+                            <i class="fas fa-user-plus me-2"></i>Зарегистрироваться
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="text-muted mb-0">Уже есть аккаунт?</p>
+                        <a href="/Home/Enter" class="btn btn-outline-primary btn-sm mt-2">
+                            <i class="fas fa-sign-in-alt me-1"></i>Войти в систему
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-@if (ViewBag.ErrorMessage != null)
-{
-	<div class="alert alert-danger" role="alert">
-		@ViewBag.ErrorMessage
-	</div>
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .card {
+            border-radius: 20px;
+        }
+
+        .input-group-text {
+            border: none;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .form-control {
+            border: 1px solid #dee2e6;
+            border-left: none;
+        }
+
+            .form-control:focus {
+                box-shadow: none;
+                border-color: #2c5aa0;
+            }
+
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 }
-<form method="post">
-	<div class="row">
-		<div class="col-4">Login:</div>
-		<div class="col-8"><input type="text" name="Login" /></div>
-	</div>
-	<div class="row">
-		<div class="col-4">ФИО:</div>
-		<div class="col-8"><input type="text" name="fio" /></div>
-	</div>
-	<div class="row">
-		<div class="col-4">Пароль:</div>
-		<div class="col-8"><input type="password" name="password" /></div>
-	</div>
-
-
-	<div class="row">
-		<div class="col-8"></div>
-		<div class="col-4"><input type="submit" value="Регистрация" class="btn btn-primary" /></div>
-	</div>
-</form>

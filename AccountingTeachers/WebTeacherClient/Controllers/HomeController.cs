@@ -226,25 +226,31 @@ namespace WebTeacherClient.Controllers
             ViewBag.departments = APIClient.GetRequest<List<DepartmentView>>("api/main/get_full_department");
             if (!CheckCreateTeacher(department, teacher, positionteacher, TypeOrders.Hiring, null,null,datestart,dateend,bet,action))
             {
-               
                 return View();
             }
-
-            APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+            bool t = APIClient.GetRequest<bool>($"api/main/get_order_hirring_by_teacher?teacher_id={teacher}");
+            if (!t)
             {
-                TeacherID = teacher,
-                DateOrder = DateTime.Now,
-                TypeOrder = TypeOrders.Hiring,
-            });
-            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+                {
+                    TeacherID = teacher,
+                    DateOrder = DateTime.Now,
+                    TypeOrder = TypeOrders.Hiring,
+                });
+                APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                {
+                    Id = teacher,
+                    DepartmentId = department,
+                    PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
+                    DateStart = DateTime.Parse(datestart),
+                    DateEnd = DateTime.Parse(dateend),
+                    bet = bet
+                });
+            }
+            else
             {
-                Id = teacher,
-                DepartmentId = department,
-                PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
-                DateStart = DateTime.Parse(datestart),
-                DateEnd = DateTime.Parse(dateend),
-                bet = bet
-            });
+                ViewBag.ErrorMessage = "Приказ найма не может быть создан на ранее нанятого сотрудника";
+            }
             return View();
         }
         [HttpPost]
@@ -258,22 +264,29 @@ namespace WebTeacherClient.Controllers
             {
                 return View();
             }
-
-            APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+            bool t = APIClient.GetRequest<bool>($"api/main/get_order_hirring_by_teacher?teacher_id={teacher}");
+            if (t)
             {
-                TeacherID = teacher,
-                DateOrder = DateTime.Now,
-                TypeOrder = TypeOrders.Swap,
-            });
-            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+                {
+                    TeacherID = teacher,
+                    DateOrder = DateTime.Now,
+                    TypeOrder = TypeOrders.Swap,
+                });
+                APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                {
+                    Id = teacher,
+                    DepartmentId = department,
+                    PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
+                    DateSwap = DateTime.Parse(dateswap),
+                    DateEnd = DateTime.Parse(dateend),
+                    bet = bet
+                });
+            }
+            else
             {
-                Id = teacher,
-                DepartmentId = department,
-                PositionTeacher = Enum.Parse<PositionTeacher>(positionteacher),
-                DateSwap = DateTime.Parse(dateswap),
-                DateEnd = DateTime.Parse(dateend),
-                bet = bet
-            });
+                ViewBag.ErrorMessage = "Невозможно перевести сотрудника тк он не устроен";
+            }
             return View();
         }
         [HttpPost]
@@ -287,17 +300,24 @@ namespace WebTeacherClient.Controllers
             {
                 return View();
             }
-
-            APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+            bool t = APIClient.GetRequest<bool>($"api/main/get_order_hirring_by_teacher?teacher_id={teacher}");
+            if (!t)
             {
-                TeacherID = teacher,
-                DateOrder = DateTime.Now,
-                TypeOrder = TypeOrders.Firing,
-            });
-            APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                APIClient.PostRequest("api/main/save_order", new OrderBindignModel
+                {
+                    TeacherID = teacher,
+                    DateOrder = DateTime.Now,
+                    TypeOrder = TypeOrders.Firing,
+                });
+                APIClient.PostRequest("api/main/update_teacher", new TeacherBindingModel
+                {
+                    Id = teacher,
+                });
+            }
+            else
             {
-                Id = teacher,
-            });
+                ViewBag.ErrorMessage = "Нельзя уволить того, кто не наш раб";
+            }
             return View();
         }
 
@@ -322,6 +342,17 @@ namespace WebTeacherClient.Controllers
             var fileMemStream = APIClient.GetRequest<byte[]>($"api/main/general_accounting?list={teacher_ser}"); 
             return File(fileMemStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Report.docx");
         }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            // Обнуляем пользователя
+            APIClient._user = null;
+
+            // Перенаправляем на страницу входа
+            return RedirectToAction("Enter");
+        }
+
         /*
         [HttpGet]
         public IActionResult generateWordReportAccounting(string data)

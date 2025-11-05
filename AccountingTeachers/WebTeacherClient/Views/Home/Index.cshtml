@@ -1,8 +1,135 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿﻿@{
+ViewData["Title"] = "Главная страница";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <!-- Герой-секция -->
+    <div class="row align-items-center min-vh-100" style="background: linear-gradient(135deg, #2c5aa0 0%, #1e3a6d 100%);">
+        <div class="col-lg-6 mx-auto text-center text-white py-5">
+            <i class="fas fa-university fa-5x mb-4 text-warning"></i>
+            <h1 class="display-3 fw-bold mb-4">Система учета преподавателей</h1>
+            <p class="lead mb-4 opacity-75">Профессиональная платформа для управления кадровыми процессами в образовательных учреждениях</p>
+
+            <div class="row mt-5">
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-transparent border-light text-white h-100">
+                        <div class="card-body">
+                            <i class="fas fa-user-tie fa-3x mb-3 text-warning"></i>
+                            <h5>Учет преподавателей</h5>
+                            <p class="small">Полный контроль над персоналом учебного заведения</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-transparent border-light text-white h-100">
+                        <div class="card-body">
+                            <i class="fas fa-file-contract fa-3x mb-3 text-warning"></i>
+                            <h5>Приказы и документы</h5>
+                            <p class="small">Автоматизация кадрового документооборота</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-transparent border-light text-white h-100">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line fa-3x mb-3 text-warning"></i>
+                            <h5>Аналитика и отчеты</h5>
+                            <p class="small">Детальная статистика и формирование отчетов</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <a href="/Home/Enter" class="btn btn-warning btn-lg me-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Войти в систему
+                </a>
+                <a href="/Home/Register" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Регистрация
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Функциональности -->
+    <div class="row py-5 bg-light">
+        <div class="col-lg-8 mx-auto text-center">
+            <h2 class="display-5 text-primary mb-5">Возможности системы</h2>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-user-plus fa-2x text-success mb-3"></i>
+                            <h5 class="text-primary">Оформление найма</h5>
+                            <p>Быстрое оформление приказов о приеме на работу новых преподавателей</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-exchange-alt fa-2x text-warning mb-3"></i>
+                            <h5 class="text-primary">Переводы</h5>
+                            <p>Управление переводами преподавателей между кафедрами</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-user-times fa-2x text-danger mb-3"></i>
+                            <h5 class="text-primary">Увольнения</h5>
+                            <p>Оформление приказов об увольнении в соответствии с законодательством</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-download fa-2x text-info mb-3"></i>
+                            <h5 class="text-primary">Экспорт отчетов</h5>
+                            <p>Генерация документов в формате Word для архивного хранения</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="row bg-dark text-white py-4">
+        <div class="col-lg-8 mx-auto text-center">
+            <p class="mb-0">&copy; 2024 Система учета преподавателей. Все права защищены.</p>
+            <p class="small text-muted mt-2">Профессиональное решение для образовательных учреждений</p>
+        </div>
+    </div>
 </div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .min-vh-100 {
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-5px);
+            }
+
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 0.75rem 2rem;
+        }
+
+        .bg-transparent.border-light {
+            backdrop-filter: blur(10px);
+        }
+    </style>
+}

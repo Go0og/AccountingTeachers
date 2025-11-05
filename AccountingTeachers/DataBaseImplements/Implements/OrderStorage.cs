@@ -84,6 +84,10 @@ namespace DataBaseImplements.Implements
                 return context.Orders
                     .FirstOrDefault(x => x.Id == SearchModel.Id);
             }
+            if (SearchModel.TeacherID.HasValue) {
+                return context.Orders
+                    .FirstOrDefault(x => x.TeacherID == SearchModel.TeacherID);
+            }
             return null;
         }
     }

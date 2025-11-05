@@ -1,118 +1,239 @@
-﻿@using Contracts.ViewContract
+﻿﻿@using Contracts.ViewContract
 @using DataModel.enums
 @model TypeOrders
 @{
     ViewData["Title"] = "OrderTeacherCreateSwap";
 }
-<div class="text-center">
-    <h2 class="display-4">Форма создания приказа перевода</h2>
-</div>
 
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.ErrorMessage
+<div class="container-fluid">
+    <div class="text-center mb-4">
+        <h2 class="display-4 text-primary">
+            <i class="fas fa-exchange-alt me-3"></i>Приказ на перевод преподавателя
+        </h2>
+        <p class="text-muted">Форма оформления приказа о переводе между кафедрами</p>
     </div>
-}
-<div class="text-center">
-    <form method="post">      
 
-            <div class="row">
-                <div class="col-4">Текущая кафедра:</div>
-                <div class="col-8">
-                    <select id="currentDepartment" class="form-control" onchange="loadTeachers(this.value, 'currentTeacher')">
-                        <option value="">Кафедра не выбрана</option>
-                        @foreach (var department in ViewBag.departments)
-                        {
-                            <option value="@department.Id">@department.Name</option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-4">Выберите преподавателя:</div>
-                <div class="col-8">
-                    <select id="currentTeacher" name="teacher" class="form-control">
-                        <option value="">Сначала выберите кафедру</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-4">Новая кафедра:</div>
-                <div class="col-8">
-                    <select id="newDepartment" name="newDepartment" class="form-control">
-                        <option value="">Выберите новую кафедру</option>
-                        @foreach (var department in ViewBag.departments)
-                        {
-                            <option value="@department.Id">@department.Name</option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-4">Позиция преподавателя:</div>
-                <div class="col-8">
-                    <select id="positionteacher" name="positionteacher" class="form-control">
-                        <option value="@DataModel.enums.PositionTeacher.Не_указано">Выберите тип</option>
-                        <option value="@DataModel.enums.PositionTeacher.Head_of_the_laboratory">Заведующий лабораториями</option>
-                        <option value="@DataModel.enums.PositionTeacher.teacher">Преподаватель</option>
-                        <option value="@DataModel.enums.PositionTeacher.Senior_lecturer">Старший преподаватель</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-auto">
-                <input type="date" class="form-control" placeholder="Дата перевода" name="dateswap">
-            </div>
-            <div class="col-auto">
-                <input type="date" class="form-control" placeholder="Дата конца" name="dateend">
-            </div>
-            <div class="col-auto">
-                <input type="number" class="form-control" placeholder="Оплата в час" name="bet" />
-            </div>
-        
-
-        <input type="submit" name="action" value="Сохранить" class="btn btn-primary" />
-    </form>
-    @if (ViewBag.teacher != null)
+    @if (ViewBag.ErrorMessage != null)
     {
-        <div class="card mt-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h4>Текущий приказ</h4>
-                <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.order.Id, order = TypeOrders.Swap })" class="btn btn-success">Скачать</a>
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Данные для перевода</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <input type="hidden" name="id" value="@ViewBag.order?.Id" />
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Текущая кафедра:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select id="currentDepartment" class="form-select" onchange="loadTeachers(this.value, 'currentTeacher')">
+                            <option value="">Выберите текущую кафедру</option>
+                            @foreach (var department in ViewBag.departments)
+                            {
+                                <option value="@department.Id"
+                                        selected="@(department.Id == ViewBag.teacher?.DepartmentId ? "selected" : null)">
+                                    @department.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Преподаватель:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select id="currentTeacher" name="teacher" class="form-select">
+                            <option value="">Выберите преподавателя</option>
+                            @if (ViewBag.teacher != null)
+                            {
+                                <option value="@ViewBag.teacher.Id" selected="selected">@ViewBag.teacher.FIO</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Новая кафедра:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select id="newDepartment" name="newDepartment" class="form-select">
+                            <option value="">Выберите новую кафедру</option>
+                            @foreach (var department in ViewBag.departments)
+                            {
+                                <option value="@department.Id"
+                                        selected="@(department.Id == ViewBag.newDepartmentId ? "selected" : null)">
+                                    @department.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Должность:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select id="positionteacher" name="positionteacher" class="form-select">
+                            <option value="">Выберите должность</option>
+                            <option value="@PositionTeacher.Head_of_the_laboratory"
+                                    selected="@(Convert.ToString(PositionTeacher.Head_of_the_laboratory) == ViewBag.teacher?.PositionTeacher ? "selected" : null)">
+                                Заведующий лабораториями
+                            </option>
+                            <option value="@PositionTeacher.teacher"
+                                    selected="@(Convert.ToString(PositionTeacher.teacher) == ViewBag.teacher?.PositionTeacher ? "selected" : null)">
+                                Преподаватель
+                            </option>
+                            <option value="@PositionTeacher.Senior_lecturer"
+                                    selected="@(Convert.ToString(PositionTeacher.Senior_lecturer) == ViewBag.teacher?.PositionTeacher ? "selected" : null)">
+                                Старший преподаватель
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Дата перевода:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="date" class="form-control" name="dateswap" value="@ViewBag.teacher?.DateStart?.ToString("yyyy-MM-dd")">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Дата окончания:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="date" class="form-control" name="dateend" value="@ViewBag.teacher?.DateEnd?.ToString("yyyy-MM-dd")">
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold text-primary">Оплата в час:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">₽</span>
+                            <input type="number" class="form-control" name="bet" value="@ViewBag.teacher?.bet" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 justify-content-end">
+                    @if (ViewBag.order != null)
+                    {
+                        <button type="submit" name="action" value="Удалить" class="btn btn-danger">
+                            <i class="fas fa-trash me-1"></i>Удалить приказ
+                        </button>
+                    }
+                    <button type="submit" name="action" value="Сохранить" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i>Сохранить приказ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (ViewBag.order != null)
+    {
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-file-contract me-2"></i>Текущий приказ</h5>
+                <a href="@Url.Action("generateWordReport", "Home", new { Id = ViewBag.order.Id, order = TypeOrders.Swap })" class="btn btn-light">
+                    <i class="fas fa-download me-1"></i>Скачать DOC
+                </a>
             </div>
             <div class="card-body">
-                <p><strong>Кафедра:</strong> @ViewBag.department_name</p>
-                <p><strong>Преподаватель:</strong> @ViewBag.teacher.FIO</p>
-                <p><strong>Позиция преподавателя:</strong> @ViewBag.teacher.PositionTeacher</p>
-                <p><strong>Дата начала:</strong> @ViewBag.teacher.DateStart</p>
-                <p><strong>Дата конца:</strong> @ViewBag.teacher.DateEnd</p>
-                <p><strong>Оплата в час:</strong> @ViewBag.teacher.bet</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Текущая кафедра:</label>
+                            <div>@ViewBag.department_name</div>
+                        </div>
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Новая кафедра:</label>
+                            <div>@ViewBag.newDepartmentName</div>
+                        </div>
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Преподаватель:</label>
+                            <div>@ViewBag.teacher?.FIO</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Должность:</label>
+                            <div>@ViewBag.teacher?.PositionTeacher</div>
+                        </div>
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Дата перевода:</label>
+                            <div>@ViewBag.teacher?.DateStart?.ToString("dd.MM.yyyy")</div>
+                        </div>
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Дата окончания:</label>
+                            <div>@ViewBag.teacher?.DateEnd?.ToString("dd.MM.yyyy")</div>
+                        </div>
+                        <div class="info-item mb-3">
+                            <label class="fw-bold text-primary">Оплата в час:</label>
+                            <div>@ViewBag.teacher?.bet ₽</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     }
 </div>
 
-<script>
- 
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .card {
+            border: none;
+            border-radius: 15px;
+        }
 
-    // Универсальная функция для загрузки преподавателей
+        .info-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #2c5aa0;
+        }
+
+        .form-select, .form-control {
+            border-radius: 8px;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+        }
+    </style>
+}
+
+<script>
     function loadTeachers(departmentId, teacherSelectId) {
         var teacherSelect = document.getElementById(teacherSelectId);
         teacherSelect.innerHTML = '<option value="">Загрузка...</option>';
 
-        // Получаем всех преподавателей из ViewBag
         var allTeachers = @Html.Raw(Json.Serialize(ViewBag.teachers));
 
-        // Фильтруем преподавателей по выбранной кафедре
         var filteredTeachers = allTeachers.filter(function(teacher) {
             return teacher.departmentId == departmentId;
         });
 
-        // Очищаем и заполняем select
         teacherSelect.innerHTML = '<option value="">Выберите преподавателя</option>';
 
         if (filteredTeachers.length > 0) {

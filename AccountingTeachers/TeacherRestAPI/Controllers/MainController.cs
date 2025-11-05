@@ -7,6 +7,7 @@ using Contracts.ViewContract;
 using DataModel.enums;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using WebTeacherClient;
 
 namespace TeacherRestAPI.Controllers
 {
@@ -109,7 +110,6 @@ namespace TeacherRestAPI.Controllers
             else
             {
                 ordersLogic.CreateOrder(model);
-                
             }
         }
         [HttpPost]
@@ -137,8 +137,21 @@ namespace TeacherRestAPI.Controllers
         [HttpGet]
         public byte[] general_accounting(string list)
         {
-            
             return _reportLogic.SaveAccountingToWordFile(JsonConvert.DeserializeObject<List<DepartmentTeacherView>>(list));
+        }
+        
+        [HttpGet]
+        public bool get_order_hirring_by_teacher(int teacher_id)
+        {
+            bool result = false;
+            var t = ordersPresenter.MakeOrder(new OrderSearch
+            {
+                TeacherID = teacher_id
+            });
+            if (t != null) { 
+                result = true;
+            }
+            return result;
         }
     }
 }
