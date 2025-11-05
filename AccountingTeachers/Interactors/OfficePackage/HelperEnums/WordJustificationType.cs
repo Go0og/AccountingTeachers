@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataModel.Models
+namespace Interactors.OfficePackage.HelperEnums
 {
-    public interface Idepartment : Iid
+    public enum WordJustificationType
     {
-        string Name { get;}
+        Center,
+        Both,
+        Right
     }
 }

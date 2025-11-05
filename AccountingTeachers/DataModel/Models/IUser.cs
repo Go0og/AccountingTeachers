@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataModel.Models
 {
-    public interface Idepartment : Iid
+    public interface IUser : Iid
     {
-        string Name { get;}
+        string Name { get; }
+        string Email { get; }
+        string Password { get; }
     }
 }

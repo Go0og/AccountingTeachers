@@ -17,7 +17,13 @@ namespace DataModel.Models
 
         PositionTeacher PositionTeacher { get; }
 
-        int departmentId { get; }
+        int DepartmentId { get; }
+
+        DateTime DateStart { get; }
+
+        DateTime? DateSwap { get; }
+        DateTime DateEnd { get; }
+
 
     }
 }

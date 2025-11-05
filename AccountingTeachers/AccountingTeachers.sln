@@ -1,9 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24 d17.14
+VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{DFB66F7B-CEF3-4A5B-B4D0-5001D862BAD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{4F60566C-B504-47C9-8AEA-79A99A88EB68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseImplements", "DataBaseImplements\DataBaseImplements.csproj", "{387A8A6A-6A16-4447-8134-AE5C71C63D21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interactors", "Interactors\Interactors.csproj", "{4ACF3843-B30F-4F5F-969C-309B51055E57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presenters", "Presenters\Presenters.csproj", "{3899EB1F-9612-5499-16C3-1CCC00D9D981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherRestAPI", "TeacherRestAPI\TeacherRestAPI.csproj", "{FEEFE5AA-3E7B-4D02-BA56-BD89E95C3609}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTeacherClient", "WebTeacherClient\WebTeacherClient.csproj", "{72B3732B-FD27-4691-A8FB-A26F4C629A60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +27,30 @@ Global
 		{DFB66F7B-CEF3-4A5B-B4D0-5001D862BAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFB66F7B-CEF3-4A5B-B4D0-5001D862BAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFB66F7B-CEF3-4A5B-B4D0-5001D862BAD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F60566C-B504-47C9-8AEA-79A99A88EB68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F60566C-B504-47C9-8AEA-79A99A88EB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F60566C-B504-47C9-8AEA-79A99A88EB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F60566C-B504-47C9-8AEA-79A99A88EB68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{387A8A6A-6A16-4447-8134-AE5C71C63D21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387A8A6A-6A16-4447-8134-AE5C71C63D21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387A8A6A-6A16-4447-8134-AE5C71C63D21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387A8A6A-6A16-4447-8134-AE5C71C63D21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ACF3843-B30F-4F5F-969C-309B51055E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ACF3843-B30F-4F5F-969C-309B51055E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ACF3843-B30F-4F5F-969C-309B51055E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ACF3843-B30F-4F5F-969C-309B51055E57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3899EB1F-9612-5499-16C3-1CCC00D9D981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3899EB1F-9612-5499-16C3-1CCC00D9D981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3899EB1F-9612-5499-16C3-1CCC00D9D981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3899EB1F-9612-5499-16C3-1CCC00D9D981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEEFE5AA-3E7B-4D02-BA56-BD89E95C3609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEEFE5AA-3E7B-4D02-BA56-BD89E95C3609}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEEFE5AA-3E7B-4D02-BA56-BD89E95C3609}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEEFE5AA-3E7B-4D02-BA56-BD89E95C3609}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B3732B-FD27-4691-A8FB-A26F4C629A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B3732B-FD27-4691-A8FB-A26F4C629A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B3732B-FD27-4691-A8FB-A26F4C629A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B3732B-FD27-4691-A8FB-A26F4C629A60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
